@@ -1,0 +1,151 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{FCAE8279-545E-41C2-ABB4-3C2DB92E1C7E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>GuildWarsInterface</RootNamespace>
+    <AssemblyName>GuildWarsInterface</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Fasm.NET">
+      <HintPath>..\packages\Fasm.NET.1.70.03.2\lib\Fasm.NET.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Controllers\GameControllers\AttackController.cs" />
+    <Compile Include="Datastructures\Agents\Agent.cs" />
+    <Compile Include="Datastructures\Items\Bag.cs" />
+    <Compile Include="Datastructures\Items\Equipment.cs" />
+    <Compile Include="Datastructures\Items\Inventory.cs" />
+    <Compile Include="Datastructures\Items\InventoryPage.cs" />
+    <Compile Include="Datastructures\Items\Item.cs" />
+    <Compile Include="Datastructures\Items\Weaponset.cs" />
+    <Compile Include="Declarations\AttackFailType.cs" />
+    <Compile Include="Declarations\Effect.cs" />
+    <Compile Include="Datastructures\Player\Abilities.cs" />
+    <Compile Include="Datastructures\Agents\Components\Base\AgentBasicResource.cs" />
+    <Compile Include="Datastructures\Agents\Components\AgentClientMemory.cs" />
+    <Compile Include="Datastructures\Agents\Components\CreatureEnergy.cs" />
+    <Compile Include="Datastructures\Agents\Components\CreatureHealth.cs" />
+    <Compile Include="Datastructures\Agents\Components\AgentTransformation.cs" />
+    <Compile Include="Datastructures\Agents\Components\Professions.cs" />
+    <Compile Include="Datastructures\Components\AbilityAttributes.cs" />
+    <Compile Include="Datastructures\Components\AbilityAvailableSkills.cs" />
+    <Compile Include="Datastructures\Components\AbilityAvailableProfessions.cs" />
+    <Compile Include="Datastructures\Player\Account.cs" />
+    <Compile Include="Datastructures\Agents\Creature.cs" />
+    <Compile Include="Datastructures\Misc\Dialog.cs" />
+    <Compile Include="Debugging\Debug.cs" />
+    <Compile Include="Declarations\Campaign.cs" />
+    <Compile Include="Declarations\CreatureStatus.cs" />
+    <Compile Include="Declarations\DialogButtonIcon.cs" />
+    <Compile Include="Datastructures\Agents\NonPlayerCharacter.cs" />
+    <Compile Include="Datastructures\Agents\PlayerCharacter.cs" />
+    <Compile Include="Datastructures\Agents\Components\AgentMovement.cs" />
+    <Compile Include="Datastructures\Agents\Components\PlayerAppearance.cs" />
+    <Compile Include="Datastructures\Components\ItemColor.cs" />
+    <Compile Include="Datastructures\Components\ItemStat.cs" />
+    <Compile Include="Datastructures\Base\Creatable.cs" />
+    <Compile Include="Datastructures\Base\IIdentifyable.cs" />
+    <Compile Include="Datastructures\Player\SkillBar.cs" />
+    <Compile Include="Declarations\Attribute.cs" />
+    <Compile Include="Declarations\DeclarationConversion.cs" />
+    <Compile Include="Declarations\Dye.cs" />
+    <Compile Include="Declarations\EquipmentSlot.cs" />
+    <Compile Include="Declarations\GameState.cs" />
+    <Compile Include="Declarations\InventoryType.cs" />
+    <Compile Include="Declarations\ItemFlags.cs" />
+    <Compile Include="Declarations\ItemStatIdentifier.cs" />
+    <Compile Include="Declarations\ItemType.cs" />
+    <Compile Include="Declarations\NpcFlags.cs" />
+    <Compile Include="Declarations\Profession.cs" />
+    <Compile Include="Declarations\Skill.cs" />
+    <Compile Include="Declarations\StorageType.cs" />
+    <Compile Include="Logic\AuthLogic.cs" />
+    <Compile Include="Logic\GameLogic.cs" />
+    <Compile Include="Misc\IdManager.cs" />
+    <Compile Include="Interaction\Chat.cs" />
+    <Compile Include="Declarations\HString.cs" />
+    <Compile Include="Datastructures\Party.cs" />
+    <Compile Include="Declarations\CreatureAnimation.cs" />
+    <Compile Include="Game.cs" />
+    <Compile Include="Datastructures\Zone.cs" />
+    <Compile Include="Declarations\AgentProperty.cs" />
+    <Compile Include="Declarations\MapData.cs" />
+    <Compile Include="Declarations\Map.cs" />
+    <Compile Include="Controllers\GameControllers\AbilitiesController.cs" />
+    <Compile Include="Controllers\GameControllers\CharacterCreationController.cs" />
+    <Compile Include="Controllers\GameControllers\ChatController.cs" />
+    <Compile Include="Modification\Hooks\GameProtocolHook.cs" />
+    <Compile Include="Modification\Hooks\GetHostByNameHook.cs" />
+    <Compile Include="Modification\Hooks\CancelLoginHook.cs" />
+    <Compile Include="Networking\Protocol\Protocol.cs" />
+    <Compile Include="Networking\Protocol\AuthServerMessage.cs" />
+    <Compile Include="Networking\Servers\FileServer.cs" />
+    <Compile Include="Controllers\Base\IControllerManager.cs" />
+    <Compile Include="Controllers\GameControllers\InventoryController.cs" />
+    <Compile Include="Controllers\GameControllers\PartyController.cs" />
+    <Compile Include="Controllers\GameControllers\MovementController.cs" />
+    <Compile Include="Controllers\GameControllers\InstanceLoadController.cs" />
+    <Compile Include="Controllers\GameControllers\MiscController.cs" />
+    <Compile Include="Controllers\GameControllers\SkillController.cs" />
+    <Compile Include="Controllers\GameControllers\VendorController.cs" />
+    <Compile Include="Controllers\AuthControllers\MiscController.cs" />
+    <Compile Include="Controllers\AuthControllers\LoginController.cs" />
+    <Compile Include="Controllers\AuthControllers\ComputerInfoController.cs" />
+    <Compile Include="Modification\Hooks\ConnectHook.cs" />
+    <Compile Include="Modification\Hooks\HookHelper.cs" />
+    <Compile Include="Modification\Native\Kernel32.cs" />
+    <Compile Include="Networking\Base\Connection.cs" />
+    <Compile Include="Networking\Servers\GameServer.cs" />
+    <Compile Include="Controllers\Base\IController.cs" />
+    <Compile Include="Networking\Base\Listener.cs" />
+    <Compile Include="Networking\Servers\AuthServer.cs" />
+    <Compile Include="Modification\Patches\DisableEncryptionPatch.cs" />
+    <Compile Include="Modification\Patches\PortPatch.cs" />
+    <Compile Include="Modification\Patches\TeamArenaPatch.cs" />
+    <Compile Include="Networking\Network.cs" />
+    <Compile Include="Networking\Servers\Base\Server.cs" />
+    <Compile Include="Datastructures\Player\Player.cs" />
+    <Compile Include="Networking\Protocol\GameServerMessage.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
