@@ -11,12 +11,15 @@ namespace GuildWarsInterface.Datastructures.Agents
 {
         public abstract class Agent : Creatable, IIdentifyable
         {
+                internal readonly AgentClientMemory AgentClientMemory;
                 public readonly AgentTransformation Transformation;
                 private string _name;
                 private float _speed;
 
                 protected Agent()
                 {
+                        AgentClientMemory = new AgentClientMemory(this);
+
                         Name = "N/A";
                         Transformation = new AgentTransformation(this);
                         Speed = 288;
@@ -83,8 +86,8 @@ namespace GuildWarsInterface.Datastructures.Agents
                                                 agentType | IdManager.GetId(this),
                                                 (byte) (agentType > 0 ? 1 : 4),
                                                 (byte) 5,
-                                                Transformation.ExplicitPosition[0],
-                                                Transformation.ExplicitPosition[1],
+                                                Transformation.Position.X,
+                                                Transformation.Position.Y,
                                                 (ushort) 0,
                                                 (float) 0,
                                                 (float) 0,

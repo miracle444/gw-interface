@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace GuildWarsInterface.Datastructures.Agents.Components
+﻿namespace GuildWarsInterface.Datastructures.Agents.Components
 {
         public sealed class AgentMovement
         {

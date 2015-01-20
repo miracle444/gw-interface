@@ -1,5 +1,6 @@
 ﻿#region
 
+using System;
 using System.Collections.Generic;
 using GuildWarsInterface.Controllers.Base;
 using GuildWarsInterface.Datastructures.Agents;
@@ -38,7 +39,11 @@ namespace GuildWarsInterface.Controllers.GameControllers
 
                 private void CharacterCreateUpdateCampaignAndProfessionHandler_(List<object> objects)
                 {
-                        Game.Player.Abilities.Profession = new Professions((Profession) objects[2], Profession.None);
+                        Network.GameServer.Send(GameServerMessage.UpdatePrivateProfessions,
+                                                IdManager.GetId(_characterCreationAgent),
+                                                (byte) objects[2],
+                                                (byte) 0,
+                                                (byte) 1);
                 }
 
                 private void ValidateNewCharacterHandler_(List<object> objects)
@@ -46,20 +51,23 @@ namespace GuildWarsInterface.Controllers.GameControllers
                         var createdCharacter = new PlayerCharacter
                                 {
                                         Name = (string) objects[1],
-                                        Appearance = new PlayerAppearance((uint) objects[2])
+                                        Appearance = new PlayerAppearance(BitConverter.ToUInt32((byte[]) objects[2], 0))
                                 };
 
-                        ValidationSucceeded(createdCharacter);
+                        ValidationFailed();
+                        //ValidationSucceeded(createdCharacter);
                 }
 
                 private void ValidationSucceeded(PlayerCharacter createdCharacter)
                 {
                         Game.Player.Account.AddCharacter(createdCharacter);
 
+                        Network.GameServer.Send((GameServerMessage) 382, (byte) 1);
+
                         Network.GameServer.Send(GameServerMessage.CharacterCreated,
                                                 new byte[16],
                                                 createdCharacter.Name,
-                                                (ushort) Map.TeamArenas,
+                                                (ushort) 100, //Map.TeamArenas,
                                                 createdCharacter.GetLoginScreenAppearance());
 
                         Game.Player.Character = createdCharacter;

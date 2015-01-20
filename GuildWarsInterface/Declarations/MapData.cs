@@ -1,6 +1,7 @@
 ﻿#region
 
 using System;
+using GuildWarsInterface.Datastructures.Agents.Components;
 using GuildWarsInterface.Debugging;
 
 #endregion
@@ -35,26 +36,26 @@ namespace GuildWarsInterface.Declarations
                         }
                 }
 
-                public static float[] GetDefaultSpawnPoint(Map map)
+                public static Position GetDefaultSpawnPoint(Map map)
                 {
                         switch (map)
                         {
                                 case Map.RandomArenas:
-                                        return new[] {3854F, 3874F};
+                                        return new Position(3854F, 3874F, 0);
                                 case Map.TeamArenas:
-                                        return new[] {-1873F, 352F};
+                                        return new Position(-1873F, 352F, 0);
                                 case Map.HeroesAscent:
-                                        return new[] {2017F, -3241F};
+                                        return new Position(2017F, -3241F, 0);
                                 case Map.PresearingAscalonCity:
-                                        return new[] {9487F, 4758F};
+                                        return new Position(9487F, 4758F, 0);
                                 case Map.AscalonCity:
-                                        return new[] {6565F, 4578F};
+                                        return new Position(6565F, 4578F, 0);
                                 case Map.RiversideProvince:
-                                        return new[] {-22544F, 8059F};
+                                        return new Position(-22544F, 8059F, 0);
                                 case Map.LakesideCounty:
-                                        return new[] {6602F, 4485F};
+                                        return new Position(6602F, 4485F, 0);
                                 case Map.DAllessioArena:
-                                        return new[] {-3331F, -5193F};
+                                        return new Position(-3331F, -5193F, 0);
                                 default:
                                         Debug.ThrowException(new IndexOutOfRangeException("map data unknown for map: " + map));
                                         return null;

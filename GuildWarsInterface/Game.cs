@@ -25,7 +25,7 @@ namespace GuildWarsInterface
 
                 public static Zone Zone { get; private set; }
                 public static GameState State { get; internal set; }
-                
+
                 public static bool Initialize()
                 {
                         try
@@ -37,15 +37,20 @@ namespace GuildWarsInterface
                                                 Creature creature;
                                                 if (IdManager.TryGet(id, out creature))
                                                 {
-                                                        creature.Transformation.OnChanged();
+                                                        creature.Transformation.Position = creature.AgentClientMemory.Position;
+                                                        creature.Transformation.Speed = creature.AgentClientMemory.Speed;
                                                 }
                                         });
 
-                                AgentTrackerHook.Install(data =>
-                                {
-                                                AgentTransformation.Tracker = data;
-
-                                                AgentTransformation.OnGoalChanged();
+                                AgentTrackerHook.Install((id, data) =>
+                                        {
+                                                Creature creature;
+                                                if (IdManager.TryGet(id, out creature))
+                                                {
+                                                        creature.Transformation.Goal = new Position(BitConverter.ToSingle(BitConverter.GetBytes(Marshal.ReadInt32(data + 8)), 0),
+                                                                                                    BitConverter.ToSingle(BitConverter.GetBytes(Marshal.ReadInt32(data + 12)), 0),
+                                                                                                    (short) Marshal.ReadInt32(data + 16));
+                                                }
                                         });
 
                                 Network.Initialize();

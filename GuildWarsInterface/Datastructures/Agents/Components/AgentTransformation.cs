@@ -1,7 +1,6 @@
 ﻿#region
 
 using System;
-using System.Runtime.InteropServices;
 using GuildWarsInterface.Declarations;
 using GuildWarsInterface.Misc;
 using GuildWarsInterface.Networking;
@@ -14,39 +13,39 @@ namespace GuildWarsInterface.Datastructures.Agents.Components
         public sealed class AgentTransformation
         {
                 private readonly Agent _agent;
-                private readonly AgentClientMemory _agentClientMemory;
-                private AgentMovement _movement;
+                private Position _goal;
+                private MovementType _movementType;
                 private float _orientation;
+
+                private Position _position;
+                private float _speed;
 
                 public AgentTransformation(Agent agent)
                 {
                         _agent = agent;
-                        _agentClientMemory = new AgentClientMemory(agent);
-
-                        Position = new float[2];
-                        Movement = new AgentMovement(Position, MovementState.NotMoving);
+                        _position = new Position(0, 0, 0);
+                        _goal = _position;
                 }
 
-                internal float[] ExplicitPosition { get; private set; }
-
-                public float[] Position
+                public Position Position
                 {
-                        get
-                        {
-                                if (Game.State == GameState.Playing && _agent.Created)
-                                {
-                                        return new[] {_agentClientMemory.ClientMemoryX, _agentClientMemory.ClientMemoryY};
-                                }
-
-                                return ExplicitPosition;
-                        }
+                        get { return _position; }
                         set
                         {
-                                ExplicitPosition = value;
+                                Position oldPosition = Position;
+                                _position = value;
 
-                                if (Game.State == GameState.Playing && _agent.Created)
+                                if (Position.DistanceTo(oldPosition) > 100000)
                                 {
-                                        Network.GameServer.Send(GameServerMessage.UpdateAgentPosition, IdManager.GetId(_agent), ExplicitPosition[0], ExplicitPosition[1], (ushort) 0);
+                                        if (Game.State == GameState.Playing && _agent.Created)
+                                        {
+                                                Network.GameServer.Send(GameServerMessage.UpdateAgentPosition, IdManager.GetId(_agent), Position.X, Position.Y, Position.Plane);
+                                        }
+                                }
+
+                                if (Position.Plane != oldPosition.Plane)
+                                {
+                                        if (PlaneChanged != null) PlaneChanged();
                                 }
                         }
                 }
@@ -65,37 +64,59 @@ namespace GuildWarsInterface.Datastructures.Agents.Components
                         }
                 }
 
-                private AgentMovement Movement
+                public Position Goal
                 {
-                        get { return _movement; }
+                        get { return _goal; }
                         set
                         {
-                                _movement = value;
-
-                                if (Game.State == GameState.Playing && _agent.Created)
+                                if (_goal != value)
                                 {
-                                        if (_movement.State == MovementState.Moving)
-                                        {
-                                                Console.WriteLine("agent started moving");
+                                        _goal = value;
 
-                                                Network.GameServer.Send(GameServerMessage.MovementSpeed, IdManager.GetId(_agent), (float) 1, (byte) 1);
-
-                                                Network.GameServer.Send(GameServerMessage.Move, IdManager.GetId(_agent), Movement.Goal[0], Movement.Goal[1], (ushort) 0, (ushort) 0);
-                                        }
-                                        else
-                                        {
-                                                Console.WriteLine("agent stopped moving");
-
-                                                Network.GameServer.Send(GameServerMessage.MovementSpeed, IdManager.GetId(_agent), (float) 1, (byte) 9);
-
-                                                Network.GameServer.Send(GameServerMessage.Move, IdManager.GetId(_agent), Movement.Goal[0], Movement.Goal[1], (ushort) 0, (ushort) 0);
-                                        }
+                                        if (GoalChanged != null) GoalChanged();
                                 }
                         }
                 }
 
-                public static MovementType MovementType = MovementType.Stop;
-                internal static IntPtr Tracker = IntPtr.Zero;
+                public float Speed
+                {
+                        get { return _speed; }
+                        set
+                        {
+                                if (Math.Abs(_speed - value) > 0.1D)
+                                {
+                                        _speed = value;
+                                        if (SpeedChanged != null) SpeedChanged();
+                                }
+                        }
+                }
+
+                public MovementType MovementType
+                {
+                        get { return _movementType; }
+                        set
+                        {
+                                if (_movementType != value)
+                                {
+                                        _movementType = value;
+                                        if (MovementTypeChanged != null) MovementTypeChanged();
+                                }
+                        }
+                }
+
+                public float SpeedModifier
+                {
+                        get
+                        {
+                                float speedModifier = Game.Player.Character.Transformation.Speed / Game.Player.Character.Speed;
+                                return speedModifier > 0 ? Math.Max(0.01F, Math.Min(1F, speedModifier)) : 1;
+                        }
+                }
+
+                public event Action GoalChanged;
+                public event Action SpeedChanged;
+                public event Action PlaneChanged;
+                public event Action MovementTypeChanged;
 
                 public void Move(float x, float y, short plane, float speedModifier, MovementType type)
                 {
@@ -113,46 +134,6 @@ namespace GuildWarsInterface.Datastructures.Agents.Components
                                                         (ushort) plane,
                                                         (ushort) plane);
                         }
-                }
-
-                public event Action Changed;
-
-                public float Speed
-                {
-                        get
-                        {
-                                 var mx = _agentClientMemory.ClientMemoryMoveX;
-                        var my = _agentClientMemory.ClientMemoryMoveY;
-
-                        return (float) Math.Sqrt(mx * mx + my * my);
-                        }
-                }
-
-                public short Plane
-                {
-                        get { return _agentClientMemory.ClientMemoryPlane; }
-                }
-
-                public static float GoalX
-                {
-                        get { return BitConverter.ToSingle(BitConverter.GetBytes(Marshal.ReadInt32(Tracker + 8)), 0); }
-                }
-
-                public static float GoalY
-                {
-                        get { return BitConverter.ToSingle(BitConverter.GetBytes(Marshal.ReadInt32(Tracker + 12)), 0); }
-                }
-
-                public static event Action GoalChanged;
-
-                public static void OnGoalChanged()
-                {
-                        if (GoalChanged != null) GoalChanged();
-                }
-
-                public void OnChanged()
-                {
-                        if (Changed != null) Changed();
                 }
         }
 }

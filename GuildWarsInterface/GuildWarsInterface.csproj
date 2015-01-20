@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="Controllers\GameControllers\AttackController.cs" />
     <Compile Include="Datastructures\Agents\Agent.cs" />
+    <Compile Include="Datastructures\Agents\Components\Position.cs" />
     <Compile Include="Datastructures\Items\Bag.cs" />
     <Compile Include="Datastructures\Items\Equipment.cs" />
     <Compile Include="Datastructures\Items\Inventory.cs" />

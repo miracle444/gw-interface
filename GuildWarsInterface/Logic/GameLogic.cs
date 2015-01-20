@@ -23,6 +23,12 @@ namespace GuildWarsInterface.Logic
 
                 public delegate void PartyKickMemberHandler(PlayerCharacter memberToKick);
 
+                public delegate void SkillBarEquipSkillHandler(uint slot, Skill skill);
+
+                public delegate void SkillBarMoveSkillToEmptySlotHandler(uint slotFrom, uint slotTo);
+
+                public delegate void SkillBarSwapSkillsHandler(uint slot1, uint slot2);
+
                 public static ChatMessageHandler ChatMessage = (message, channel) => Chat.ShowMessage(message, Game.Player.Character, Chat.GetColorForChannel(channel));
 
                 public static PartyInviteHandler PartyInvite = invitedCharacter =>
@@ -53,5 +59,11 @@ namespace GuildWarsInterface.Logic
                 public static Action ExitToLoginScreen = () => { };
 
                 public static ChangeMapHandler ChangeMap = map => Game.ChangeMap(map, zone => Game.Player.Character.Transformation.Position = MapData.GetDefaultSpawnPoint(zone.Map));
+
+                public static SkillBarSwapSkillsHandler SkillBarSwapSkills = Game.Player.Abilities.SkillBar.MoveSkill;
+
+                public static SkillBarEquipSkillHandler SkillBarEquipSkill = Game.Player.Abilities.SkillBar.SetSkill;
+
+                public static SkillBarMoveSkillToEmptySlotHandler SkillBarMoveSkillToEmptySlot = Game.Player.Abilities.SkillBar.MoveSkill;
         }
 }

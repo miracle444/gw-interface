@@ -6,6 +6,7 @@ using GuildWarsInterface.Controllers.Base;
 using GuildWarsInterface.Datastructures.Agents.Components;
 using GuildWarsInterface.Debugging;
 using GuildWarsInterface.Declarations;
+using GuildWarsInterface.Logic;
 using Attribute = GuildWarsInterface.Declarations.Attribute;
 
 #endregion
@@ -51,36 +52,36 @@ namespace GuildWarsInterface.Controllers.GameControllers
 
                 private void SwapSkillHandler(List<object> objects)
                 {
-                        uint locationOfSkill1 = 8;
-                        uint locationOfSkill2 = 8;
+                        uint skill1 = 8;
+                        uint skill2 = 8;
 
                         for (uint i = 0; i < 8; i++)
                         {
-                                if (Game.Player.Abilities.SkillBar.GetSkill(i) == (Skill) objects[2] &&
+                                if (Game.Player.Abilities.SkillBar.GetSkill(i) == (Skill) (uint) objects[2] &&
                                     Game.Player.Abilities.SkillBar.GetCopy(i) == (uint) objects[3])
                                 {
-                                        locationOfSkill1 = i;
+                                        skill1 = i;
                                 }
-                                else if (Game.Player.Abilities.SkillBar.GetSkill(i) == (Skill) objects[4] &&
+                                else if (Game.Player.Abilities.SkillBar.GetSkill(i) == (Skill) (uint) objects[4] &&
                                          Game.Player.Abilities.SkillBar.GetCopy(i) == (uint) objects[5])
                                 {
-                                        locationOfSkill2 = i;
+                                        skill2 = i;
                                 }
                         }
 
-                        if (locationOfSkill1 > 7 || locationOfSkill2 > 7)
+                        if (skill1 > 7 || skill2 > 7)
                         {
                                 Debug.ThrowException(new ArgumentException());
                         }
 
-                        Game.Player.Abilities.SkillBar.MoveSkill(locationOfSkill1, locationOfSkill2);
+                        GameLogic.SkillBarSwapSkills(skill1, skill2);
                 }
 
                 private void EquipSkillHandler(List<object> objects)
                 {
-                        if (Game.Player.Abilities.SkillBar.GetSkill((uint) objects[2]) == (Skill) objects[3]) return;
+                        if (Game.Player.Abilities.SkillBar.GetSkill((uint) objects[2]) == (Skill) (uint) objects[3]) return;
 
-                        Game.Player.Abilities.SkillBar.SetSkill((uint) objects[2], (Skill) objects[3]);
+                        GameLogic.SkillBarEquipSkill((uint) objects[2], (Skill) (uint) objects[3]);
                 }
 
                 private void MoveSkillToEmptySlotHandler(List<object> objects)
@@ -107,7 +108,8 @@ namespace GuildWarsInterface.Controllers.GameControllers
                                 Debug.ThrowException(new ArgumentException());
                         }
 
-                        Game.Player.Abilities.SkillBar.MoveSkill(skillToMoveLocation, (uint) objects[4]);
+
+                        GameLogic.SkillBarMoveSkillToEmptySlot(skillToMoveLocation, (uint) objects[4]);
                 }
         }
 }

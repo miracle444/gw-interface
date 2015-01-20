@@ -10,7 +10,7 @@ namespace GuildWarsInterface.Modification.Hooks
                 {
                         var myIdLocation = new IntPtr(0x00D55964);
                         var hookLocation1 = new IntPtr(0x005D5061);
-                        var hookLocation = new IntPtr(0x005D5240); //new IntPtr(0x005D5061));
+                        var hookLocation = new IntPtr(0x005D5240);
 
                         IntPtr codeCave2 = Marshal.AllocHGlobal(4);
 
@@ -22,12 +22,9 @@ namespace GuildWarsInterface.Modification.Hooks
                                         "org " + codeCave1,
                                         "push esi",
                                         "push edi",
-
-                                        "mov esi, dword[ebx+0x10]", // safe agentid
+                                        "mov esi, dword[ebx+0x10]",
                                         "mov dword[" + codeCave2 + "],esi",
-
                                         "lea esi, dword[ebx+0x78]",
-
                                         "jmp " + (hookLocation1 + 5)
                                 });
                         Marshal.Copy(code1, 0, codeCave1, code1.Length);
@@ -35,22 +32,15 @@ namespace GuildWarsInterface.Modification.Hooks
                         HookHelper.Jump(hookLocation1, codeCave1);
 
 
-                         IntPtr codeCave = Marshal.AllocHGlobal(128);
+                        IntPtr codeCave = Marshal.AllocHGlobal(128);
 
-                         byte[] code = FasmNet.Assemble(new[]
+                        byte[] code = FasmNet.Assemble(new[]
                                 {
                                         "use32",
                                         "org " + codeCave,
-                                        "mov ecx, dword[" + codeCave2 + "]",
-                                        "cmp ecx, dword[" + myIdLocation + "]",
-                                        "jne skip",
-
-                                        "pushad",
                                         "push dword [ebp+0x8]",
+                                        "push dword [" + codeCave2 + "]",
                                         "call " + Marshal.GetFunctionPointerForDelegate(hook),
-                                        "popad",
-
-                                        "skip:",
                                         "pop edi",
                                         "pop esi",
                                         "pop ebx",
@@ -63,6 +53,6 @@ namespace GuildWarsInterface.Modification.Hooks
                 }
 
                 [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-                internal delegate void HookType(IntPtr data);
+                internal delegate void HookType(uint id, IntPtr data);
         }
 }

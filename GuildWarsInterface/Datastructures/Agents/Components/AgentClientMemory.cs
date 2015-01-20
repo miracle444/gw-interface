@@ -8,10 +8,10 @@ using GuildWarsInterface.Misc;
 
 namespace GuildWarsInterface.Datastructures.Agents.Components
 {
-        public sealed class AgentClientMemory
+        internal sealed class AgentClientMemory
         {
                 private readonly Agent _agent;
-                private readonly IntPtr _agentBase = (IntPtr)0x00D559B8;
+                private readonly IntPtr _agentBase = (IntPtr) 0x00D559B8;
 
                 public AgentClientMemory(Agent agent)
                 {
@@ -33,7 +33,18 @@ namespace GuildWarsInterface.Datastructures.Agents.Components
                         }
                 }
 
-                internal short ClientMemoryPlane
+                public float Speed
+                {
+                        get
+                        {
+                                float mx = MoveX;
+                                float my = MoveY;
+
+                                return (float) Math.Sqrt(mx * mx + my * my);
+                        }
+                }
+
+                public short Plane
                 {
                         get
                         {
@@ -48,7 +59,7 @@ namespace GuildWarsInterface.Datastructures.Agents.Components
                         }
                 }
 
-                internal float ClientMemoryX
+                public float X
                 {
                         get
                         {
@@ -63,7 +74,7 @@ namespace GuildWarsInterface.Datastructures.Agents.Components
                         }
                 }
 
-                internal float ClientMemoryY
+                public float Y
                 {
                         get
                         {
@@ -78,7 +89,7 @@ namespace GuildWarsInterface.Datastructures.Agents.Components
                         }
                 }
 
-                internal float ClientMemoryMoveX
+                public float MoveX
                 {
                         get
                         {
@@ -93,7 +104,7 @@ namespace GuildWarsInterface.Datastructures.Agents.Components
                         }
                 }
 
-                internal float ClientMemoryMoveY
+                public float MoveY
                 {
                         get
                         {
@@ -108,19 +119,9 @@ namespace GuildWarsInterface.Datastructures.Agents.Components
                         }
                 }
 
-                internal int ClientMemoryModelState
+                public Position Position
                 {
-                        get
-                        {
-                                try
-                                {
-                                        return Marshal.ReadInt32(ClientMemoryBase + 424);
-                                }
-                                catch
-                                {
-                                        return 0;
-                                }
-                        }
+                        get { return new Position(X, Y, Plane); }
                 }
         }
 }

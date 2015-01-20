@@ -1,12 +1,8 @@
 ﻿#region
 
-using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using GuildWarsInterface.Controllers.Base;
-using GuildWarsInterface.Datastructures.Agents.Components;
 using GuildWarsInterface.Declarations;
-using GuildWarsInterface.Logic;
 
 #endregion
 
@@ -23,17 +19,17 @@ namespace GuildWarsInterface.Controllers.GameControllers
 
                 private void KeyboardMoveHandler(List<object> objects)
                 {
-                        AgentTransformation.MovementType = (MovementType)(uint)objects[4];
+                        Game.Player.Character.Transformation.MovementType = (MovementType) (uint) objects[4];
                 }
 
                 private void MouseMoveHandler(List<object> objects)
                 {
-                        AgentTransformation.MovementType = MovementType.Forward;
+                        Game.Player.Character.Transformation.MovementType = MovementType.Forward;
                 }
 
                 private void KeyboardStopMovingHandler(List<object> objects)
                 {
-                        AgentTransformation.MovementType = MovementType.Stop;
+                        Game.Player.Character.Transformation.MovementType = MovementType.Stop;
                 }
         }
 }

@@ -1,6 +1,7 @@
 ﻿#region
 
 using System.Collections.Generic;
+using System.Linq;
 using GuildWarsInterface.Datastructures.Agents;
 using GuildWarsInterface.Declarations;
 using GuildWarsInterface.Networking;
@@ -37,6 +38,11 @@ namespace GuildWarsInterface.Datastructures.Player
                                                         character.Name,
                                                         character.GetLoginScreenAppearance());
                         }
+                }
+
+                public void ClearCharacters()
+                {
+                        _characters.ToList().ForEach(RemoveCharacter);
                 }
 
                 internal void RemoveCharacter(PlayerCharacter character)
