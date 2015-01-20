@@ -84,6 +84,7 @@
     <Compile Include="Declarations\ItemFlags.cs" />
     <Compile Include="Declarations\ItemStatIdentifier.cs" />
     <Compile Include="Declarations\ItemType.cs" />
+    <Compile Include="Declarations\MovementType.cs" />
     <Compile Include="Declarations\NpcFlags.cs" />
     <Compile Include="Declarations\Profession.cs" />
     <Compile Include="Declarations\Skill.cs" />
@@ -103,6 +104,8 @@
     <Compile Include="Controllers\GameControllers\AbilitiesController.cs" />
     <Compile Include="Controllers\GameControllers\CharacterCreationController.cs" />
     <Compile Include="Controllers\GameControllers\ChatController.cs" />
+    <Compile Include="Modification\Hooks\AgentMovementHook.cs" />
+    <Compile Include="Modification\Hooks\AgentTrackerHook.cs" />
     <Compile Include="Modification\Hooks\GameProtocolHook.cs" />
     <Compile Include="Modification\Hooks\GetHostByNameHook.cs" />
     <Compile Include="Modification\Hooks\CancelLoginHook.cs" />

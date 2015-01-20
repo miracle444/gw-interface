@@ -1,6 +1,7 @@
 ﻿#region
 
 using System;
+using System.Runtime.InteropServices;
 using GuildWarsInterface.Declarations;
 using GuildWarsInterface.Misc;
 using GuildWarsInterface.Networking;
@@ -91,6 +92,67 @@ namespace GuildWarsInterface.Datastructures.Agents.Components
                                         }
                                 }
                         }
+                }
+
+                public static MovementType MovementType = MovementType.Stop;
+                internal static IntPtr Tracker = IntPtr.Zero;
+
+                public void Move(float x, float y, short plane, float speedModifier, MovementType type)
+                {
+                        if (Game.State == GameState.Playing)
+                        {
+                                Network.GameServer.Send((GameServerMessage) 32,
+                                                        IdManager.GetId(_agent),
+                                                        speedModifier,
+                                                        (byte) type);
+
+                                Network.GameServer.Send((GameServerMessage) 30,
+                                                        IdManager.GetId(_agent),
+                                                        x,
+                                                        y,
+                                                        (ushort) plane,
+                                                        (ushort) plane);
+                        }
+                }
+
+                public event Action Changed;
+
+                public float Speed
+                {
+                        get
+                        {
+                                 var mx = _agentClientMemory.ClientMemoryMoveX;
+                        var my = _agentClientMemory.ClientMemoryMoveY;
+
+                        return (float) Math.Sqrt(mx * mx + my * my);
+                        }
+                }
+
+                public short Plane
+                {
+                        get { return _agentClientMemory.ClientMemoryPlane; }
+                }
+
+                public static float GoalX
+                {
+                        get { return BitConverter.ToSingle(BitConverter.GetBytes(Marshal.ReadInt32(Tracker + 8)), 0); }
+                }
+
+                public static float GoalY
+                {
+                        get { return BitConverter.ToSingle(BitConverter.GetBytes(Marshal.ReadInt32(Tracker + 12)), 0); }
+                }
+
+                public static event Action GoalChanged;
+
+                public static void OnGoalChanged()
+                {
+                        if (GoalChanged != null) GoalChanged();
+                }
+
+                public void OnChanged()
+                {
+                        if (Changed != null) Changed();
                 }
         }
 }

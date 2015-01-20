@@ -58,6 +58,11 @@ namespace GuildWarsInterface.Datastructures.Player
                         _availableProfessions.SetAvailableProfession(profession, value);
                 }
 
+                public void ClearAvailableSkills()
+                {
+                        _availableSkills.Clear();
+                }
+
                 public void AddAvailableSkill(Skill skill)
                 {
                         _availableSkills.SetAvailableSkill(skill);

@@ -1,11 +1,15 @@
 ﻿#region
 
 using System;
+using System.Runtime.InteropServices;
 using GuildWarsInterface.Datastructures;
+using GuildWarsInterface.Datastructures.Agents;
+using GuildWarsInterface.Datastructures.Agents.Components;
 using GuildWarsInterface.Datastructures.Player;
 using GuildWarsInterface.Debugging;
 using GuildWarsInterface.Declarations;
 using GuildWarsInterface.Logic;
+using GuildWarsInterface.Misc;
 using GuildWarsInterface.Modification.Hooks;
 using GuildWarsInterface.Modification.Patches;
 using GuildWarsInterface.Networking;
@@ -21,13 +25,28 @@ namespace GuildWarsInterface
 
                 public static Zone Zone { get; private set; }
                 public static GameState State { get; internal set; }
-
+                
                 public static bool Initialize()
                 {
                         try
                         {
                                 TeamArenaPatch.Apply();
                                 CancelLoginHook.Install(() => AuthLogic.CancelLogin());
+                                AgentMovementHook.Install(id =>
+                                        {
+                                                Creature creature;
+                                                if (IdManager.TryGet(id, out creature))
+                                                {
+                                                        creature.Transformation.OnChanged();
+                                                }
+                                        });
+
+                                AgentTrackerHook.Install(data =>
+                                {
+                                                AgentTransformation.Tracker = data;
+
+                                                AgentTransformation.OnGoalChanged();
+                                        });
 
                                 Network.Initialize();
 

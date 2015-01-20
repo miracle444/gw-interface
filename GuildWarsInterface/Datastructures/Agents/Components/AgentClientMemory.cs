@@ -11,7 +11,7 @@ namespace GuildWarsInterface.Datastructures.Agents.Components
         public sealed class AgentClientMemory
         {
                 private readonly Agent _agent;
-                private readonly IntPtr _agentBase = (IntPtr) 0x00D559E0;
+                private readonly IntPtr _agentBase = (IntPtr)0x00D559B8;
 
                 public AgentClientMemory(Agent agent)
                 {
@@ -29,6 +29,21 @@ namespace GuildWarsInterface.Datastructures.Agents.Components
                                 catch
                                 {
                                         return IntPtr.Zero;
+                                }
+                        }
+                }
+
+                internal short ClientMemoryPlane
+                {
+                        get
+                        {
+                                try
+                                {
+                                        return Marshal.ReadInt16(ClientMemoryBase + 92);
+                                }
+                                catch
+                                {
+                                        return 0;
                                 }
                         }
                 }
@@ -55,6 +70,36 @@ namespace GuildWarsInterface.Datastructures.Agents.Components
                                 try
                                 {
                                         return BitConverter.ToSingle(BitConverter.GetBytes(Marshal.ReadInt32(ClientMemoryBase + 120)), 0);
+                                }
+                                catch
+                                {
+                                        return 0;
+                                }
+                        }
+                }
+
+                internal float ClientMemoryMoveX
+                {
+                        get
+                        {
+                                try
+                                {
+                                        return BitConverter.ToSingle(BitConverter.GetBytes(Marshal.ReadInt32(ClientMemoryBase + 160)), 0);
+                                }
+                                catch
+                                {
+                                        return 0;
+                                }
+                        }
+                }
+
+                internal float ClientMemoryMoveY
+                {
+                        get
+                        {
+                                try
+                                {
+                                        return BitConverter.ToSingle(BitConverter.GetBytes(Marshal.ReadInt32(ClientMemoryBase + 164)), 0);
                                 }
                                 catch
                                 {

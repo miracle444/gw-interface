@@ -1,6 +1,7 @@
 ﻿#region
 
 using System.Collections.Generic;
+using System.Linq;
 using GuildWarsInterface.Declarations;
 using GuildWarsInterface.Networking;
 using GuildWarsInterface.Networking.Protocol;
@@ -16,6 +17,16 @@ namespace GuildWarsInterface.Datastructures.Components
                 public AbilityAvailableSkills()
                 {
                         _availableSkills = new List<Skill>();
+                }
+
+                public void Clear()
+                {
+                        _availableSkills.Clear();
+
+                        if (Game.State == GameState.Playing)
+                        {
+                                SendUpdateAvailableSkillsPacket();
+                        }
                 }
 
                 public void SetAvailableSkill(Skill skill)
