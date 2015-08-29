@@ -15,7 +15,7 @@ namespace GuildWarsInterface.Modification.Hooks
                 private static HookType _hookDelegate;
                 private static HookType _originalDelegate;
 
-                private static readonly IntPtr _hookAddress = (IntPtr) 0x00403B8A;
+                private static readonly IntPtr _hookAddress = (IntPtr) 0x00403B7A;
 
                 public static void Install()
                 {

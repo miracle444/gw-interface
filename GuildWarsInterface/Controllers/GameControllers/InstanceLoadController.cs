@@ -58,6 +58,8 @@ namespace GuildWarsInterface.Controllers.GameControllers
 
                         Game.Player.Abilities.LoadAbilities1();
 
+                        Game.Player.Character.SkillBar.SendUpdateSkillBarPacket();
+
                         Network.GameServer.Send(GameServerMessage.PlayerData221,
                                                 0,
                                                 0,
@@ -146,9 +148,7 @@ namespace GuildWarsInterface.Controllers.GameControllers
                 {
                         Game.Zone.Loaded = true;
 
-                        Network.GameServer.Send(GameServerMessage.SpeechBubble,
-                                                IdManager.GetId(Game.Player.Character),
-                                                new HString("Round 28!").Serialize());
+                        Game.Player.Character.SpeechBubble("Round 29!");
                 }
         }
 }

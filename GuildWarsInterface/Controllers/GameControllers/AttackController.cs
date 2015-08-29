@@ -22,9 +22,9 @@ namespace GuildWarsInterface.Controllers.GameControllers
 
                         Chat.ShowMessage(string.Format("attacking {0}!", target));
 
-                        Network.GameServer.Send(GameServerMessage.Message42, IdManager.GetId(Game.Player.Character), 1.75F, 0xF);
+                        Network.GameServer.Send((GameServerMessage) 42, IdManager.GetId(Game.Player.Character), 1.75F, 0xF);
 
-                        /*Network.GameServer.Send(GameServerMessage.Message152, 
+                        /*Network.GameServer.Send(GameServerMessage.Projectile, 
                                 IdManager.GetId(Game.Player.Character),
                                 target.Transformation.ExplicitPosition[0],
                                 target.Transformation.ExplicitPosition[1],
@@ -38,7 +38,7 @@ namespace GuildWarsInterface.Controllers.GameControllers
                         for (var i = 0; i < 10000; i++)
                         {
                                 for (var j = 1; j < 5; j++)
-                                        Network.GameServer.Send(GameServerMessage.Message152,
+                                        Network.GameServer.Send(GameServerMessage.Projectile,
                                                                 IdManager.GetId(Game.Player.Character),
                                                                 target.Transformation.ExplicitPosition[0],
                                                                 target.Transformation.ExplicitPosition[1],

@@ -69,11 +69,11 @@
                 Unknown9, // TODO: Generic Value missing!
                 MeleeSkillAttack2,
                 Unknown10, // TODO: Generic Value missing!
-                CastAttack, // TODO: Generic Value missing!
-                InterruptAttack,
+                CastInstant,
+                CancelAttack,
 
                 // 50
-                CastAttackSkill,
+                CastAttack,
                 Unknown12, // TODO: Generic Value missing!
                 EnergyModifier2,
                 EnergyModifier3,
@@ -84,7 +84,7 @@
                 ModifyHealthWithoutFloaters,
                 Unknown13, // TODO: Generic Value missing!
                 FightStance,
-                InterruptSkill,
+                CancelSkill,
 
                 // 60
                 CastSkill,

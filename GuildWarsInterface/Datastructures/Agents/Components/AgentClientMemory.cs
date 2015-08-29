@@ -8,10 +8,10 @@ using GuildWarsInterface.Misc;
 
 namespace GuildWarsInterface.Datastructures.Agents.Components
 {
-        internal sealed class AgentClientMemory
+        public sealed class AgentClientMemory
         {
                 private readonly Agent _agent;
-                private readonly IntPtr _agentBase = (IntPtr) 0x00D559B8;
+                private readonly IntPtr _agentBase = (IntPtr) 0x00D55A20;
 
                 public AgentClientMemory(Agent agent)
                 {
@@ -26,7 +26,7 @@ namespace GuildWarsInterface.Datastructures.Agents.Components
                                 {
                                         return Marshal.ReadIntPtr(Marshal.ReadIntPtr(_agentBase) + (int) (4 * IdManager.GetId(_agent)));
                                 }
-                                catch
+                                catch (Exception)
                                 {
                                         return IntPtr.Zero;
                                 }
@@ -50,9 +50,9 @@ namespace GuildWarsInterface.Datastructures.Agents.Components
                         {
                                 try
                                 {
-                                        return Marshal.ReadInt16(ClientMemoryBase + 92);
+                                        return Marshal.ReadInt16(ClientMemoryBase + 0x5C);
                                 }
-                                catch
+                                catch (Exception)
                                 {
                                         return 0;
                                 }
@@ -67,7 +67,7 @@ namespace GuildWarsInterface.Datastructures.Agents.Components
                                 {
                                         return BitConverter.ToSingle(BitConverter.GetBytes(Marshal.ReadInt32(ClientMemoryBase + 116)), 0);
                                 }
-                                catch
+                                catch (Exception)
                                 {
                                         return 0;
                                 }
@@ -82,7 +82,7 @@ namespace GuildWarsInterface.Datastructures.Agents.Components
                                 {
                                         return BitConverter.ToSingle(BitConverter.GetBytes(Marshal.ReadInt32(ClientMemoryBase + 120)), 0);
                                 }
-                                catch
+                                catch (Exception)
                                 {
                                         return 0;
                                 }
@@ -97,7 +97,7 @@ namespace GuildWarsInterface.Datastructures.Agents.Components
                                 {
                                         return BitConverter.ToSingle(BitConverter.GetBytes(Marshal.ReadInt32(ClientMemoryBase + 160)), 0);
                                 }
-                                catch
+                                catch (Exception)
                                 {
                                         return 0;
                                 }
@@ -112,7 +112,7 @@ namespace GuildWarsInterface.Datastructures.Agents.Components
                                 {
                                         return BitConverter.ToSingle(BitConverter.GetBytes(Marshal.ReadInt32(ClientMemoryBase + 164)), 0);
                                 }
-                                catch
+                                catch (Exception)
                                 {
                                         return 0;
                                 }

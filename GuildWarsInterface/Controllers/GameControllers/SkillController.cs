@@ -5,6 +5,7 @@ using GuildWarsInterface.Controllers.Base;
 using GuildWarsInterface.Datastructures.Agents;
 using GuildWarsInterface.Declarations;
 using GuildWarsInterface.Interaction;
+using GuildWarsInterface.Logic;
 using GuildWarsInterface.Misc;
 using GuildWarsInterface.Networking;
 using GuildWarsInterface.Networking.Protocol;
@@ -39,29 +40,11 @@ namespace GuildWarsInterface.Controllers.GameControllers
                                 return;
                         }
 
-                        CastSkill((Skill) (uint) objects[1], (uint) objects[2], target);
-                }
-
-                private void CastSkill(Skill skill, uint copy, Creature target)
-                {
-                        Game.Player.Character.SendAgentPropertyFloat(AgentProperty.CastTimeModifier, 3.1F);
-                        Game.Player.Character.SendAgentTargetPropertyInt(AgentProperty.CastSkill, Game.Player.Character, (uint) skill);
-
-                        Network.GameServer.Send(GameServerMessage.SkillRechargedVisualAutoAfterRecharge,
-                                                IdManager.GetId(Game.Player.Character),
-                                                (ushort) skill,
-                                                copy);
-
-                        Network.GameServer.Send(GameServerMessage.SkillRecharging,
-                                                IdManager.GetId(Game.Player.Character),
-                                                (ushort) skill,
-                                                copy,
-                                                1);
-
-                        Network.GameServer.Send(GameServerMessage.SkillRecharged,
-                                                IdManager.GetId(Game.Player.Character),
-                                                (ushort) skill,
-                                                copy);
+                        uint slot;
+                        if (Game.Player.Character.SkillBar.TryGetSlot((Skill) (uint) objects[1], (uint) objects[2], out slot))
+                        {
+                                GameLogic.CastSkill(slot, target);
+                        }
                 }
         }
 }

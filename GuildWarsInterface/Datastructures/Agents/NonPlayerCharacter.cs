@@ -27,7 +27,6 @@ namespace GuildWarsInterface.Datastructures.Agents
                 // 282999 angry asuras ~ 314390
                 // 283000 asuras ~ 314390
 
-                private readonly uint _file;
                 private readonly NpcFlags _flags;
                 private readonly uint _model;
                 private readonly uint _size;
@@ -35,15 +34,7 @@ namespace GuildWarsInterface.Datastructures.Agents
                 public NonPlayerCharacter(uint model, uint size = 20)
                 {
                         _model = model;
-                        _file = 116225;
                         _size = size;
-                }
-
-                public NonPlayerCharacter(uint model, uint file, NpcFlags flags, uint size = 20)
-                        : this(model, size)
-                {
-                        _file = file;
-                        _flags = flags;
                 }
 
                 protected override void OnNameChanged()
@@ -54,7 +45,7 @@ namespace GuildWarsInterface.Datastructures.Agents
                 {
                         Network.GameServer.Send(GameServerMessage.NpcStats,
                                                 IdManager.GetId(this),
-                                                _file,
+                                                _model,
                                                 0,
                                                 _size << 24,
                                                 0,
@@ -62,8 +53,6 @@ namespace GuildWarsInterface.Datastructures.Agents
                                                 (byte) Professions.Primary,
                                                 (byte) 20,
                                                 new[] {(char) 0x8102, (char) 0x58FA});
-
-                        if (_model > 0) Network.GameServer.Send(GameServerMessage.NpcModel, IdManager.GetId(this), new[] {_model});
 
                         Network.GameServer.Send(GameServerMessage.NpcName, IdManager.GetId(this), new HString(Name).Serialize());
 

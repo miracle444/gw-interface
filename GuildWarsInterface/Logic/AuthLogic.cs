@@ -1,4 +1,5 @@
 ﻿using System;
+using GuildWarsInterface.Datastructures;
 using GuildWarsInterface.Declarations;
 
 namespace GuildWarsInterface.Logic
@@ -16,6 +17,7 @@ namespace GuildWarsInterface.Logic
                 public static PlayHandler Play = (map) => Game.ChangeMap(map, zone =>
                         {
                                 zone.AddAgent(Game.Player.Character);
+                                zone.AddParty(new Party(Game.Player.Character));
                                 Game.Player.Character.Transformation.Position = MapData.GetDefaultSpawnPoint(zone.Map);
                         });
 

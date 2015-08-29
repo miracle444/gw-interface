@@ -10,7 +10,7 @@ namespace GuildWarsInterface.Modification.Patches
 {
         internal static class DisableEncryptionPatch
         {
-                private static readonly IntPtr _location = (IntPtr) 0x0058FEAB;
+                private static readonly IntPtr _location = (IntPtr) 0x005900BB;
 
                 public static void Apply()
                 {

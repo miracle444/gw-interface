@@ -16,7 +16,6 @@ namespace GuildWarsInterface.Datastructures.Player
 {
         public sealed class Abilities
         {
-                public readonly SkillBar SkillBar;
                 private readonly AbilityAttributes _attributes;
                 private readonly AbilityAvailableProfessions _availableProfessions;
                 private readonly AbilityAvailableSkills _availableSkills;
@@ -29,9 +28,6 @@ namespace GuildWarsInterface.Datastructures.Player
                         _availableSkills = new AbilityAvailableSkills();
                         _availableProfessions = new AbilityAvailableProfessions();
                         _profession = new Professions(Declarations.Profession.Warrior, Declarations.Profession.None);
-
-                        SkillBar = new SkillBar();
-
                         _freeAttributePoints = 0;
                 }
 
@@ -165,9 +161,6 @@ namespace GuildWarsInterface.Datastructures.Player
                                                 IdManager.GetId(Game.Player.Character),
                                                 _freeAttributePoints,
                                                 (byte) 0);
-
-
-                        SkillBar.SendUpdateSkillBarPacket();
                 }
 
                 internal void LoadAbilities2()

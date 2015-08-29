@@ -3,6 +3,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using GuildWarsInterface.Datastructures.Agents;
 using GuildWarsInterface.Declarations;
 using GuildWarsInterface.Misc;
 using GuildWarsInterface.Networking;
@@ -14,11 +15,13 @@ namespace GuildWarsInterface.Datastructures.Player
 {
         public sealed class SkillBar
         {
+                private readonly PlayerCharacter _character;
                 private readonly Dictionary<SkillBarSkill, uint> _copies;
                 private readonly SkillBarSkill[] _skills;
 
-                internal SkillBar()
+                internal SkillBar(PlayerCharacter character)
                 {
+                        _character = character;
                         _skills = new SkillBarSkill[8];
                         _copies = new Dictionary<SkillBarSkill, uint>();
 
@@ -87,7 +90,7 @@ namespace GuildWarsInterface.Datastructures.Player
                         return _skills[index].Skill;
                 }
 
-                public uint GetCopy(uint index)
+                private uint GetCopy(uint index)
                 {
                         return _copies[_skills[index]];
                 }
@@ -127,6 +130,64 @@ namespace GuildWarsInterface.Datastructures.Player
                         sb.Append(" ]");
 
                         return sb.ToString();
+                }
+
+                internal bool TryGetSlot(Skill skill, uint copy, out uint slot)
+                {
+                        for (int i = 0; i < _skills.Length; i++)
+                        {
+                                if (_skills[i].Skill != skill) continue;
+
+                                if (_copies[_skills[i]] == copy)
+                                {
+                                        slot = (uint) i;
+                                        return true;
+                                }
+                        }
+
+                        slot = 9;
+                        return false;
+                }
+
+                public void RechargeStart(uint slot, uint recharge)
+                {
+                        Skill skill = GetSkill(slot);
+                        uint copy = GetCopy(slot);
+
+                        Network.GameServer.Send(GameServerMessage.SkillRechargedVisualAutoAfterRecharge,
+                                                IdManager.GetId(_character),
+                                                (ushort) skill,
+                                                copy);
+
+                        Network.GameServer.Send(GameServerMessage.SkillRecharging,
+                                                IdManager.GetId(_character),
+                                                (ushort) skill,
+                                                copy,
+                                                recharge);
+                }
+
+                public void RechargeEnd(uint slot)
+                {
+                        Skill skill = GetSkill(slot);
+                        uint copy = GetCopy(slot);
+
+                        Network.GameServer.Send(GameServerMessage.SkillRecharged,
+                                                IdManager.GetId(_character),
+                                                (ushort) skill,
+                                                copy);
+
+                        RechargedVisual(slot);
+                }
+
+                public void RechargedVisual(uint slot)
+                {
+                        Skill skill = GetSkill(slot);
+                        uint copy = GetCopy(slot);
+
+                        Network.GameServer.Send(GameServerMessage.SkillRechargedVisual,
+                                                IdManager.GetId(_character),
+                                                (ushort) skill,
+                                                copy);
                 }
 
                 private class SkillBarSkill

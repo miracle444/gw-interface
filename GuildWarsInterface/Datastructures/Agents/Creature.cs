@@ -13,6 +13,7 @@ namespace GuildWarsInterface.Datastructures.Agents
 {
         public abstract class Creature : Agent
         {
+                public readonly CreatureBuffs Buffs;
                 public readonly CreatureEnergy Energy;
                 public readonly CreatureHealth Health;
                 public readonly Inventory Inventory;
@@ -28,6 +29,7 @@ namespace GuildWarsInterface.Datastructures.Agents
                         Level = 1;
                         Health = new CreatureHealth(this);
                         Energy = new CreatureEnergy(this);
+                        Buffs = new CreatureBuffs(this);
                         Professions = new Professions(Profession.Warrior, Profession.None);
                         Inventory = new Inventory();
                 }
@@ -123,6 +125,53 @@ namespace GuildWarsInterface.Datastructures.Agents
                 public void PerformWingsEmote(bool white = false)
                 {
                         PerformEmote(AgentProperty.WingsEmote, (uint) (white ? 2 : 1));
+                }
+
+                public void CastInstant(Skill skill, Agent target)
+                {
+                        SendAgentTargetPropertyInt(AgentProperty.CastInstant, target, (uint) skill);
+                }
+
+                public void CastSkill(Skill skill, float castTime, Agent target)
+                {
+                        SendAgentPropertyFloat(AgentProperty.CastTimeModifier, castTime);
+                        SendAgentTargetPropertyInt(AgentProperty.CastSkill, target, (uint) skill);
+                }
+
+                public void CancelSkill()
+                {
+                        SendAgentPropertyInt(AgentProperty.CancelSkill, 0);
+                }
+
+                public void CastAttack(Skill skill, float castTime, Agent target)
+                {
+                        SendAgentPropertyFloat(AgentProperty.CastTimeModifier, castTime);
+                        SendAgentTargetPropertyInt(AgentProperty.CastAttack, target, (uint) skill);
+                }
+
+                public void CancelAttack()
+                {
+                        SendAgentPropertyInt(AgentProperty.CancelAttack, 0);
+                }
+
+                public void SpeechBubble(string text)
+                {
+                        Network.GameServer.Send(GameServerMessage.SpeechBubble,
+                                                IdManager.GetId(this),
+                                                new HString(text).Serialize());
+                }
+
+                public void ShootProjectile(Position targetPosition, float flightTime, uint effect)
+                {
+                        Network.GameServer.Send(GameServerMessage.Projectile,
+                                                IdManager.GetId(this),
+                                                targetPosition.X,
+                                                targetPosition.Y,
+                                                targetPosition.Plane,
+                                                flightTime,
+                                                effect,
+                                                1, // unknown
+                                                (byte) 0); // ignored
                 }
         }
 }

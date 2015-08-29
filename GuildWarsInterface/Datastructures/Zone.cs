@@ -17,8 +17,6 @@ namespace GuildWarsInterface.Datastructures
                 {
                         Map = map;
 
-                        IsExplorable = false;
-
                         _agents = new List<Creature>();
 
                         _parties = new List<Party>();
@@ -36,7 +34,7 @@ namespace GuildWarsInterface.Datastructures
                         get { return _parties.ToArray(); }
                 }
 
-                public bool IsExplorable { get; private set; }
+                public bool IsExplorable { get; set; }
 
                 public bool Loaded { get; internal set; }
 

@@ -55,7 +55,7 @@ namespace GuildWarsInterface.Datastructures.Agents.Components.Base
                         get { return _maximum; }
                         set
                         {
-                                _maximum = value;
+                                _maximum = value > 0 ? value : 1;
 
                                 OnMaximumChanged();
                         }

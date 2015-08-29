@@ -30,6 +30,8 @@ namespace GuildWarsInterface.Declarations
                                         return new[] {6602F, 4485F};
                                 case Map.DAllessioArena:
                                         return new[] {-3331F, -5193F};
+                                case Map.GreatTempleOfBalthazar:
+                                        return new[] {-6481.818F, -5885.178F};
                                 default:
                                         Debug.ThrowException(new IndexOutOfRangeException("map data unknown for map: " + map));
                                         return null;
@@ -56,6 +58,8 @@ namespace GuildWarsInterface.Declarations
                                         return new Position(6602F, 4485F, 0);
                                 case Map.DAllessioArena:
                                         return new Position(-3331F, -5193F, 0);
+                                case Map.GreatTempleOfBalthazar:
+                                        return new Position(-6558F, -6010F, 0);
                                 default:
                                         Debug.ThrowException(new IndexOutOfRangeException("map data unknown for map: " + map));
                                         return null;
@@ -81,6 +85,8 @@ namespace GuildWarsInterface.Declarations
                                         return 0x29ba;
                                 case Map.DAllessioArena:
                                         return 0x25A0B;
+                                case Map.GreatTempleOfBalthazar:
+                                        return 0x287b3;
                                 default:
                                         Debug.ThrowException(new IndexOutOfRangeException("map data unknown for map: " + map));
                                         return 0;

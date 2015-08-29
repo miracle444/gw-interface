@@ -72,7 +72,7 @@ namespace GuildWarsInterface.Controllers.AuthControllers
                         var mapId = (uint) objects[3];
                         if (mapId != 0)
                         {
-                                AuthLogic.Play((Map) mapId);
+                                AuthLogic.Play(Map.TeamArenas);
                         }
                         else
                         {

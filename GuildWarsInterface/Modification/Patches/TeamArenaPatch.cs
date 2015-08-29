@@ -10,13 +10,13 @@ namespace GuildWarsInterface.Modification.Patches
 {
         internal static class TeamArenaPatch
         {
-                private static readonly IntPtr _location = (IntPtr) 0x008BCA5C;
+                private static readonly IntPtr _location = (IntPtr) 0x008BCA7C;
 
                 public static void Apply()
                 {
                         uint dwOldProtection;
                         Kernel32.VirtualProtect(_location, 4, 0x40, out dwOldProtection);
-                        Marshal.WriteInt32(_location, 0x40C0003);
+                        Marshal.WriteInt32(_location, 0);
                         Kernel32.VirtualProtect(_location, 4, dwOldProtection, out dwOldProtection);
                 }
         }

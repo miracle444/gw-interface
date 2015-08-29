@@ -9,6 +9,8 @@ namespace GuildWarsInterface.Logic
 {
         public static class GameLogic
         {
+                public delegate void CastSkillHandler(uint slot, Creature target);
+
                 public delegate void ChangeMapHandler(Map map);
 
                 public delegate void ChatMessageHandler(string message, Chat.Channel channel);
@@ -60,10 +62,17 @@ namespace GuildWarsInterface.Logic
 
                 public static ChangeMapHandler ChangeMap = map => Game.ChangeMap(map, zone => Game.Player.Character.Transformation.Position = MapData.GetDefaultSpawnPoint(zone.Map));
 
-                public static SkillBarSwapSkillsHandler SkillBarSwapSkills = Game.Player.Abilities.SkillBar.MoveSkill;
+                public static SkillBarSwapSkillsHandler SkillBarSwapSkills = (slot1, slot2) => Game.Player.Character.SkillBar.MoveSkill(slot1, slot2);
 
-                public static SkillBarEquipSkillHandler SkillBarEquipSkill = Game.Player.Abilities.SkillBar.SetSkill;
+                public static SkillBarEquipSkillHandler SkillBarEquipSkill = (slot, skill) => Game.Player.Character.SkillBar.SetSkill(slot, skill);
 
-                public static SkillBarMoveSkillToEmptySlotHandler SkillBarMoveSkillToEmptySlot = Game.Player.Abilities.SkillBar.MoveSkill;
+                public static SkillBarMoveSkillToEmptySlotHandler SkillBarMoveSkillToEmptySlot = (@from, to) => Game.Player.Character.SkillBar.MoveSkill(@from, to);
+
+                public static CastSkillHandler CastSkill = (slot, target) =>
+                        {
+                                Game.Player.Character.CastSkill(Game.Player.Character.SkillBar.GetSkill(slot), 3.1F, target);
+                                Game.Player.Character.SkillBar.RechargeStart(slot, 0);
+                                Game.Player.Character.SkillBar.RechargeEnd(slot);
+                        };
         }
 }

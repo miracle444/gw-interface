@@ -13,6 +13,8 @@ namespace GuildWarsInterface.Datastructures.Agents.Components
         public sealed class AgentTransformation
         {
                 private readonly Agent _agent;
+                private MovementType _cacheType = MovementType.Stop;
+                private float _cacheVelocity = 1F;
                 private Position _goal;
                 private MovementType _movementType;
                 private float _orientation;
@@ -41,11 +43,6 @@ namespace GuildWarsInterface.Datastructures.Agents.Components
                                         {
                                                 Network.GameServer.Send(GameServerMessage.UpdateAgentPosition, IdManager.GetId(_agent), Position.X, Position.Y, Position.Plane);
                                         }
-                                }
-
-                                if (Position.Plane != oldPosition.Plane)
-                                {
-                                        if (PlaneChanged != null) PlaneChanged();
                                 }
                         }
                 }
@@ -78,19 +75,6 @@ namespace GuildWarsInterface.Datastructures.Agents.Components
                         }
                 }
 
-                public float Speed
-                {
-                        get { return _speed; }
-                        set
-                        {
-                                if (Math.Abs(_speed - value) > 0.1D)
-                                {
-                                        _speed = value;
-                                        if (SpeedChanged != null) SpeedChanged();
-                                }
-                        }
-                }
-
                 public MovementType MovementType
                 {
                         get { return _movementType; }
@@ -104,36 +88,43 @@ namespace GuildWarsInterface.Datastructures.Agents.Components
                         }
                 }
 
-                public float SpeedModifier
-                {
-                        get
-                        {
-                                float speedModifier = Game.Player.Character.Transformation.Speed / Game.Player.Character.Speed;
-                                return speedModifier > 0 ? Math.Max(0.01F, Math.Min(1F, speedModifier)) : 1;
-                        }
-                }
-
                 public event Action GoalChanged;
-                public event Action SpeedChanged;
-                public event Action PlaneChanged;
                 public event Action MovementTypeChanged;
 
-                public void Move(float x, float y, short plane, float speedModifier, MovementType type)
+                public void SetGoal(float x, float y, ushort plane)
                 {
                         if (Game.State == GameState.Playing)
                         {
                                 Network.GameServer.Send((GameServerMessage) 32,
                                                         IdManager.GetId(_agent),
-                                                        speedModifier,
-                                                        (byte) type);
+                                                        _cacheVelocity,
+                                                        (byte) _cacheType);
+                                Console.WriteLine("velocity: {0}, type: {1}", _cacheType, _cacheType);
 
                                 Network.GameServer.Send((GameServerMessage) 30,
                                                         IdManager.GetId(_agent),
                                                         x,
                                                         y,
-                                                        (ushort) plane,
-                                                        (ushort) plane);
+                                                        plane,
+                                                        plane);
+
+                                Console.WriteLine("x: {0}, y: {1}, plane: {2}", x, y, plane);
                         }
+                }
+
+                public void Move(Position goal, float speedModifier, MovementType movementType)
+                {
+                        Network.GameServer.Send((GameServerMessage) 32,
+                                                IdManager.GetId(_agent),
+                                                speedModifier,
+                                                (byte) movementType);
+
+                        Network.GameServer.Send((GameServerMessage) 30,
+                                                IdManager.GetId(_agent),
+                                                goal.X,
+                                                goal.Y,
+                                                goal.Plane,
+                                                goal.Plane);
                 }
         }
 }

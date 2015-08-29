@@ -9,6 +9,7 @@
                 PresearingAscalonCity = 148,
                 RiversideProvince = 73,
                 LakesideCounty = 146,
-                DAllessioArena = 187
+                DAllessioArena = 187,
+                GreatTempleOfBalthazar = 248
         }
 }

@@ -8,9 +8,8 @@ namespace GuildWarsInterface.Modification.Hooks
         {
                 internal static void Install(HookType hook)
                 {
-                        var myIdLocation = new IntPtr(0x00D55964);
-                        var hookLocation1 = new IntPtr(0x005D5061);
-                        var hookLocation = new IntPtr(0x005D5240);
+                        var hookLocation1 = new IntPtr(0x005D53B1);
+                        var hookLocation = new IntPtr(0x005D5590);
 
                         IntPtr codeCave2 = Marshal.AllocHGlobal(4);
 

@@ -11,7 +11,7 @@ namespace GuildWarsInterface.Datastructures.Agents
 {
         public abstract class Agent : Creatable, IIdentifyable
         {
-                internal readonly AgentClientMemory AgentClientMemory;
+                public readonly AgentClientMemory AgentClientMemory;
                 public readonly AgentTransformation Transformation;
                 private string _name;
                 private float _speed;

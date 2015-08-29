@@ -2,6 +2,7 @@
 
 namespace GuildWarsInterface.Datastructures.Agents.Components
 {
+        [Serializable]
         public class Position : IEquatable<Position>
         {
                 public Position(float x, float y, short plane)

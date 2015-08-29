@@ -28,6 +28,17 @@ namespace GuildWarsInterface.Networking.Protocol
                         get { return Marshal.ReadInt32(_address + 0x30); }
                 }
 
+                public IEnumerable<KeyValuePair<int, IntPtr>> Handlers
+                {
+                        get
+                        {
+                                for (int i = 0; i < Size; i++)
+                                {
+                                        yield return new KeyValuePair<int, IntPtr>(i, Marshal.ReadIntPtr(Marshal.ReadIntPtr(_address + 0x2C) + 0xC * i + 8));
+                                }
+                        }
+                }
+
                 public uint PrefixSize(int messageId, int field)
                 {
                         var stuff = new List<int>();

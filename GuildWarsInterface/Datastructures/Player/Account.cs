@@ -13,6 +13,14 @@ namespace GuildWarsInterface.Datastructures.Player
 {
         public sealed class Account
         {
+                public enum Currency
+                {
+                        MakeoverCredit = 101,
+                        ExtremeMakeoverCredit = 102
+
+                        // value must be < 131
+                }
+
                 private readonly List<PlayerCharacter> _characters;
 
                 internal Account()
@@ -61,6 +69,11 @@ namespace GuildWarsInterface.Datastructures.Player
                                                         character.Name,
                                                         character.GetLoginScreenAppearance());
                         }
+                }
+
+                public void SetCurrency(Currency currency, ushort total, ushort used)
+                {
+                        Network.GameServer.Send(GameServerMessage.AccountCurrency, (ushort) currency, total, used);
                 }
         }
 }

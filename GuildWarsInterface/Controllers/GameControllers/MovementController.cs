@@ -2,6 +2,7 @@
 
 using System.Collections.Generic;
 using GuildWarsInterface.Controllers.Base;
+using GuildWarsInterface.Datastructures.Agents.Components;
 using GuildWarsInterface.Declarations;
 
 #endregion
@@ -25,6 +26,11 @@ namespace GuildWarsInterface.Controllers.GameControllers
                 private void MouseMoveHandler(List<object> objects)
                 {
                         Game.Player.Character.Transformation.MovementType = MovementType.Forward;
+
+                        var pos = (float[]) objects[1];
+                        var plane = (short) (uint) objects[2];
+
+                        Game.Player.Character.ShootProjectile(new Position(pos[0], pos[1], plane), 1F, 0x8F);
                 }
 
                 private void KeyboardStopMovingHandler(List<object> objects)

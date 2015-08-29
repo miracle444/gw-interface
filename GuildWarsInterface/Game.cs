@@ -21,6 +21,14 @@ namespace GuildWarsInterface
 {
         public static class Game
         {
+                public enum Window : byte
+                {
+                        Storage,
+                        Tournament,
+                        ChallengeRecords,
+                        Stylist
+                }
+
                 public static readonly Player Player = new Player();
 
                 public static Zone Zone { get; private set; }
@@ -32,16 +40,6 @@ namespace GuildWarsInterface
                         {
                                 TeamArenaPatch.Apply();
                                 CancelLoginHook.Install(() => AuthLogic.CancelLogin());
-                                AgentMovementHook.Install(id =>
-                                        {
-                                                Creature creature;
-                                                if (IdManager.TryGet(id, out creature))
-                                                {
-                                                        creature.Transformation.Position = creature.AgentClientMemory.Position;
-                                                        creature.Transformation.Speed = creature.AgentClientMemory.Speed;
-                                                }
-                                        });
-
                                 AgentTrackerHook.Install((id, data) =>
                                         {
                                                 Creature creature;
@@ -63,6 +61,11 @@ namespace GuildWarsInterface
                         {
                                 return false;
                         }
+                }
+
+                public static void OpenWindow(Window window, uint data)
+                {
+                        Network.GameServer.Send(GameServerMessage.OpenWindow, IdManager.GetId(Player.Character), (byte) window, data);
                 }
 
                 public static void ChangeMap(Map map, Action<Zone> initialization)

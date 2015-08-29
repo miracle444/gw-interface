@@ -10,7 +10,7 @@ namespace GuildWarsInterface.Modification.Patches
 {
         internal static class PortPatch
         {
-                private static readonly IntPtr _location = (IntPtr) 0x005B28FA;
+                private static readonly IntPtr _location = (IntPtr) 0x005B2ACA;
 
                 public static void Apply()
                 {

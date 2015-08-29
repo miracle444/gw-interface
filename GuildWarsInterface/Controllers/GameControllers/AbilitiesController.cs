@@ -52,62 +52,38 @@ namespace GuildWarsInterface.Controllers.GameControllers
 
                 private void SwapSkillHandler(List<object> objects)
                 {
-                        uint skill1 = 8;
-                        uint skill2 = 8;
-
-                        for (uint i = 0; i < 8; i++)
+                        uint skill1;
+                        uint skill2;
+                        if (Game.Player.Character.SkillBar.TryGetSlot((Skill) (uint) objects[2], (uint) objects[3], out skill1) &&
+                            Game.Player.Character.SkillBar.TryGetSlot((Skill) (uint) objects[4], (uint) objects[5], out skill2))
                         {
-                                if (Game.Player.Abilities.SkillBar.GetSkill(i) == (Skill) (uint) objects[2] &&
-                                    Game.Player.Abilities.SkillBar.GetCopy(i) == (uint) objects[3])
-                                {
-                                        skill1 = i;
-                                }
-                                else if (Game.Player.Abilities.SkillBar.GetSkill(i) == (Skill) (uint) objects[4] &&
-                                         Game.Player.Abilities.SkillBar.GetCopy(i) == (uint) objects[5])
-                                {
-                                        skill2 = i;
-                                }
+                                GameLogic.SkillBarSwapSkills(skill1, skill2);
                         }
-
-                        if (skill1 > 7 || skill2 > 7)
+                        else
                         {
                                 Debug.ThrowException(new ArgumentException());
                         }
-
-                        GameLogic.SkillBarSwapSkills(skill1, skill2);
                 }
 
                 private void EquipSkillHandler(List<object> objects)
                 {
-                        if (Game.Player.Abilities.SkillBar.GetSkill((uint) objects[2]) == (Skill) (uint) objects[3]) return;
+                        if (Game.Player.Character.SkillBar.GetSkill((uint) objects[2]) == (Skill) (uint) objects[3]) return;
 
                         GameLogic.SkillBarEquipSkill((uint) objects[2], (Skill) (uint) objects[3]);
                 }
 
                 private void MoveSkillToEmptySlotHandler(List<object> objects)
                 {
-                        if (Game.Player.Abilities.SkillBar.GetSkill((uint) objects[4]) != Skill.None)
+                        if (Game.Player.Character.SkillBar.GetSkill((uint) objects[4]) != Skill.None)
                         {
                                 Debug.ThrowException(new ArgumentException());
                         }
 
-                        var skillToMove = (Skill) (uint) objects[2];
-                        uint skillToMoveLocation = 8;
-
-                        for (uint i = 0; i < 8; i++)
-                        {
-                                if (Game.Player.Abilities.SkillBar.GetSkill(i) == skillToMove &&
-                                    Game.Player.Abilities.SkillBar.GetCopy(i) == (uint) objects[3])
-                                {
-                                        skillToMoveLocation = i;
-                                }
-                        }
-
-                        if (skillToMoveLocation > 7)
+                        uint skillToMoveLocation;
+                        if (!Game.Player.Character.SkillBar.TryGetSlot((Skill) (uint) objects[2], (uint) objects[3], out skillToMoveLocation))
                         {
                                 Debug.ThrowException(new ArgumentException());
                         }
-
 
                         GameLogic.SkillBarMoveSkillToEmptySlot(skillToMoveLocation, (uint) objects[4]);
                 }

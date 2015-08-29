@@ -12,7 +12,7 @@ namespace GuildWarsInterface.Modification.Hooks
         {
                 internal static void Install(HookType hook)
                 {
-                        var hookLocation = new IntPtr(0x004078F1);
+                        var hookLocation = new IntPtr(0x004078E1);
 
                         IntPtr codeCave = Marshal.AllocHGlobal(128);
 
@@ -24,7 +24,7 @@ namespace GuildWarsInterface.Modification.Hooks
                                         "push edx",
                                         "call " + Marshal.GetFunctionPointerForDelegate(hook),
                                         "popad",
-                                        "call 0x00409890",
+                                        "call 0x00409880",
                                         "jmp " + (hookLocation + 5)
                                 });
                         Marshal.Copy(code, 0, codeCave, code.Length);

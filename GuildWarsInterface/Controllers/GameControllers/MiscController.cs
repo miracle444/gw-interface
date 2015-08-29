@@ -27,9 +27,9 @@ namespace GuildWarsInterface.Controllers.GameControllers
                 {
                         Game.Player.Character.Appearance = new PlayerAppearance((uint) objects[1]);
 
-                        Network.GameServer.Send(GameServerMessage.Message4, (ushort) 101, (ushort) 1, (ushort) 0);
-                        Network.GameServer.Send(GameServerMessage.Message4, (ushort) 102, (ushort) 1, (ushort) 0);
-                        Network.GameServer.Send(GameServerMessage.Message119, 0, (byte) 3, 0);
+                        Network.GameServer.Send(GameServerMessage.AccountCurrency, (ushort) 101, (ushort) 1, (ushort) 0);
+                        Network.GameServer.Send(GameServerMessage.AccountCurrency, (ushort) 102, (ushort) 1, (ushort) 0);
+                        Network.GameServer.Send(GameServerMessage.OpenWindow, 0, (byte) 3, 0);
 
                         Console.WriteLine(Game.Player.Character.Appearance);
                 }

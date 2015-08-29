@@ -4,6 +4,7 @@ using System;
 using System.IO;
 using GuildWarsInterface.Datastructures.Agents.Components;
 using GuildWarsInterface.Datastructures.Items;
+using GuildWarsInterface.Datastructures.Player;
 using GuildWarsInterface.Declarations;
 using GuildWarsInterface.Misc;
 using GuildWarsInterface.Networking;
@@ -15,11 +16,13 @@ namespace GuildWarsInterface.Datastructures.Agents
 {
         public sealed class PlayerCharacter : Creature
         {
+                public readonly SkillBar SkillBar;
                 private PlayerAppearance _appearance;
 
                 public PlayerCharacter()
                 {
                         _appearance = new PlayerAppearance(1, 9, 4, 0, 1, 3, 4, 0);
+                        SkillBar = new SkillBar(this);
                 }
 
                 public PlayerAppearance Appearance
@@ -59,7 +62,7 @@ namespace GuildWarsInterface.Datastructures.Agents
                         const ushort PACKING_VERSION = 6;
                         stream.Write(BitConverter.GetBytes(PACKING_VERSION), 0, 2);
 
-                        var lastOutpost = (ushort) Map.HeroesAscent;
+                        var lastOutpost = (ushort) Map.GreatTempleOfBalthazar;
                         stream.Write(BitConverter.GetBytes(lastOutpost), 0, 2);
 
                         var unknown1 = new byte[]
@@ -169,7 +172,7 @@ namespace GuildWarsInterface.Datastructures.Agents
                 {
                         UpdateAppearance();
                         Professions = Professions;
-                        Level = Level;
+                        //Level = Level;
                         Status = Status;
                         Health.Maximum = Health.Maximum;
                         Energy.Maximum = Energy.Maximum;
