@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 using GuildWarsInterface.Datastructures;
 using GuildWarsInterface.Datastructures.Agents;
 using GuildWarsInterface.Datastructures.Agents.Components;
+using GuildWarsInterface.Datastructures.Const;
 using GuildWarsInterface.Datastructures.Player;
 using GuildWarsInterface.Debugging;
 using GuildWarsInterface.Declarations;
@@ -38,7 +39,7 @@ namespace GuildWarsInterface
                 {
                         try
                         {
-                                TeamArenaPatch.Apply();
+                                new Mission(Map.TeamArenas).Flags &= ~Mission.MissionFlags.HideOnWorldmap;
                                 CancelLoginHook.Install(() => AuthLogic.CancelLogin());
                                 AgentTrackerHook.Install((id, data) =>
                                         {

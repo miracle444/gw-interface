@@ -44,6 +44,7 @@
     <Compile Include="Datastructures\Agents\Agent.cs" />
     <Compile Include="Datastructures\Agents\Components\CreatureBuffs.cs" />
     <Compile Include="Datastructures\Agents\Components\Position.cs" />
+    <Compile Include="Datastructures\Const\Mission.cs" />
     <Compile Include="Datastructures\Items\Bag.cs" />
     <Compile Include="Datastructures\Items\Equipment.cs" />
     <Compile Include="Datastructures\Items\Inventory.cs" />
@@ -136,7 +137,6 @@
     <Compile Include="Networking\Servers\AuthServer.cs" />
     <Compile Include="Modification\Patches\DisableEncryptionPatch.cs" />
     <Compile Include="Modification\Patches\PortPatch.cs" />
-    <Compile Include="Modification\Patches\TeamArenaPatch.cs" />
     <Compile Include="Networking\Network.cs" />
     <Compile Include="Networking\Servers\Base\Server.cs" />
     <Compile Include="Datastructures\Player\Player.cs" />
