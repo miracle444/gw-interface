@@ -44,14 +44,16 @@
     <Compile Include="Datastructures\Agents\Agent.cs" />
     <Compile Include="Datastructures\Agents\Components\CreatureBuffs.cs" />
     <Compile Include="Datastructures\Agents\Components\Position.cs" />
-    <Compile Include="Datastructures\Const\Mission.cs" />
+    <Compile Include="Datastructures\Const\AreaInfo.cs" />
     <Compile Include="Datastructures\Items\Bag.cs" />
     <Compile Include="Datastructures\Items\Equipment.cs" />
     <Compile Include="Datastructures\Items\Inventory.cs" />
     <Compile Include="Datastructures\Items\InventoryPage.cs" />
     <Compile Include="Datastructures\Items\Item.cs" />
     <Compile Include="Datastructures\Items\Weaponset.cs" />
+    <Compile Include="Declarations\AreaType.cs" />
     <Compile Include="Declarations\AttackFailType.cs" />
+    <Compile Include="Declarations\Continent.cs" />
     <Compile Include="Declarations\Effect.cs" />
     <Compile Include="Datastructures\Player\Abilities.cs" />
     <Compile Include="Datastructures\Agents\Components\Base\AgentBasicResource.cs" />

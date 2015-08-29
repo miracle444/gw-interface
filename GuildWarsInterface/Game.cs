@@ -1,6 +1,7 @@
 ﻿#region
 
 using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using GuildWarsInterface.Datastructures;
 using GuildWarsInterface.Datastructures.Agents;
@@ -39,7 +40,7 @@ namespace GuildWarsInterface
                 {
                         try
                         {
-                                new Mission(Map.TeamArenas).Flags &= ~Mission.MissionFlags.HideOnWorldmap;
+                                Map.TeamArenas.Info().Flags &= ~AreaInfo.AreaFlags.HideOnWorldmap;
                                 CancelLoginHook.Install(() => AuthLogic.CancelLogin());
                                 AgentTrackerHook.Install((id, data) =>
                                         {
