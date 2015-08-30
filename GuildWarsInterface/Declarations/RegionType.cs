@@ -1,6 +1,6 @@
 ﻿namespace GuildWarsInterface.Declarations
 {
-        public enum AreaType : uint
+        public enum RegionType : uint
         {
                 AllianceBattle = 0,
                 Arena,
@@ -23,6 +23,6 @@
                 Dungeon,
                 Marketplace,
                 Unknown,
-                Travel,
+                DevRegion,
         }
 }

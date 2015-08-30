@@ -1,7 +1,6 @@
 ﻿#region
 
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using GuildWarsInterface.Datastructures;
 using GuildWarsInterface.Datastructures.Agents;
@@ -13,7 +12,6 @@ using GuildWarsInterface.Declarations;
 using GuildWarsInterface.Logic;
 using GuildWarsInterface.Misc;
 using GuildWarsInterface.Modification.Hooks;
-using GuildWarsInterface.Modification.Patches;
 using GuildWarsInterface.Networking;
 using GuildWarsInterface.Networking.Protocol;
 
