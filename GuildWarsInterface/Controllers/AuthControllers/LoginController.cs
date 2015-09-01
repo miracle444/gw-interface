@@ -37,12 +37,12 @@ namespace GuildWarsInterface.Controllers.AuthControllers
                                                         4,
                                                         new byte[] {0x38, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00},
                                                         new byte[] {0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x0C, 0x00},
-                                                        new byte[] {0x80, 0xDC, 0x06, 0xD7, 0xD0, 0x70, 0x04, 0x4A, 0x84, 0x60, 0xDB, 0x2B, 0xB6, 0x7D, 0x11, 0x72},
-                                                        new byte[] {0x55, 0xF4, 0x6D, 0xC9, 0x7A, 0x04, 0x01, 0x49, 0xA8, 0x85, 0x4A, 0x0D, 0x78, 0x4B, 0xE5, 0x20},
-                                                        8,
-                                                        new byte[] {0x01, 0x00, 0x02, 0x00, 0x58, 0x00, 0x01, 0x00},
-                                                        (byte) 23,
-                                                        0);
+                                                        new byte[16], // account id
+                                                        new byte[16], // last played character id
+                                                        8, // account management system version
+                                                        Game.Player.Account.SerializeUnlocks(),
+                                                        (byte) 23, // accepted eula
+                                                        0); // enable name change (requires name change credits)
 
                                 Network.AuthServer.Send(AuthServerMessage.StreamTerminator, Network.AuthServer.LoginCount, 0);
                         }
