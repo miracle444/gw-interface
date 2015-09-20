@@ -29,7 +29,9 @@ namespace GuildWarsInterface.Controllers.AuthControllers
                                 Game.Player.Account.SendCharacters();
 
                                 Network.AuthServer.Send(AuthServerMessage.Gui, Network.AuthServer.LoginCount, (ushort) 0);
-                                Network.AuthServer.Send(AuthServerMessage.FriendList, Network.AuthServer.LoginCount, 1);
+
+                                Game.Player.FriendList.Init();
+                                Network.AuthServer.Send(AuthServerMessage.PlayerStatus, Network.AuthServer.LoginCount, (uint) Game.Player.Status);
 
                                 Network.AuthServer.Send(AuthServerMessage.AccountPermissions,
                                                         Network.AuthServer.LoginCount,

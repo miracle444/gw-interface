@@ -44,6 +44,7 @@
     <Compile Include="Datastructures\Agents\Agent.cs" />
     <Compile Include="Datastructures\Agents\Components\CreatureBuffs.cs" />
     <Compile Include="Datastructures\Agents\Components\Position.cs" />
+    <Compile Include="Datastructures\Components\FriendList.cs" />
     <Compile Include="Datastructures\Const\AreaInfo.cs" />
     <Compile Include="Datastructures\Items\Bag.cs" />
     <Compile Include="Datastructures\Items\Equipment.cs" />
@@ -51,6 +52,7 @@
     <Compile Include="Datastructures\Items\InventoryPage.cs" />
     <Compile Include="Datastructures\Items\Item.cs" />
     <Compile Include="Datastructures\Items\Weaponset.cs" />
+    <Compile Include="Declarations\PlayerStatus.cs" />
     <Compile Include="Declarations\RegionType.cs" />
     <Compile Include="Declarations\AttackFailType.cs" />
     <Compile Include="Declarations\Region.cs" />

@@ -146,6 +146,8 @@ namespace GuildWarsInterface.Controllers.GameControllers
 
                 private void LoadingComplete()
                 {
+                        Game.Player.FriendList.Update();
+
                         Game.Zone.Loaded = true;
 
                         Game.Player.Character.SpeechBubble("Round 29!");

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using GuildWarsInterface.Controllers.Base;
 using GuildWarsInterface.Datastructures.Agents;
+using GuildWarsInterface.Datastructures.Components;
 using GuildWarsInterface.Debugging;
 using GuildWarsInterface.Declarations;
 using GuildWarsInterface.Logic;
@@ -22,10 +23,34 @@ namespace GuildWarsInterface.Controllers.AuthControllers
                         controllerManager.RegisterHandler(7, DeleteCharacterHandler);
                         controllerManager.RegisterHandler(9, Packet9Handler);
                         controllerManager.RegisterHandler(10, SelectCharacterHandler);
+                        controllerManager.RegisterHandler(12, MoveFriendListEntryHandler);
+                        controllerManager.RegisterHandler(14, UpdatePlayerStatusHandler);
                         controllerManager.RegisterHandler(32, Packet32Handler);
                         controllerManager.RegisterHandler(41, PlayRequest);
                         controllerManager.RegisterHandler(53, Packet53Handler);
                         controllerManager.RegisterHandler(13, LogoutHandler);
+                        controllerManager.RegisterHandler(26, AddFriendListEntryHandler);
+                }
+
+                private void UpdatePlayerStatusHandler(List<object> objects)
+                {
+                        Game.Player.Status = (PlayerStatus) (uint) objects[1];
+                }
+
+                private void MoveFriendListEntryHandler(List<object> objects)
+                {
+                        Game.Player.FriendList.Move((string) objects[3], (FriendList.Type) (uint) objects[2]);
+
+                        Network.AuthServer.LoginCount = (uint) objects[1];
+                        Network.AuthServer.Send(AuthServerMessage.StreamTerminator, Network.AuthServer.LoginCount, 0); //0x24 = you cannot add yourself as friend
+                }
+
+                private void AddFriendListEntryHandler(List<object> objects)
+                {
+                        Network.AuthServer.LoginCount = (uint) objects[1];
+                        Network.AuthServer.Send(AuthServerMessage.StreamTerminator, Network.AuthServer.LoginCount, 0); //0x24 = you cannot add yourself as friend
+
+                        Game.Player.FriendList.Add((FriendList.Type) (uint) objects[2], (string) objects[3], (string) objects[4]);
                 }
 
                 private void LogoutHandler(List<object> objects)
