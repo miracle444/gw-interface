@@ -44,7 +44,7 @@ namespace GuildWarsInterface.Datastructures.Player
 
                 public float SpeedModifier
                 {
-                        get { return (float) Math.Round(SpeedModifierHook.SpeedModifier, 2); }
+                        get { return (float) Math.Round(SpeedModifierHook.SpeedModifier(), 2); }
                 }
         }
 }

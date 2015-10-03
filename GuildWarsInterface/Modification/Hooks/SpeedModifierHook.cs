@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.ExceptionServices;
 using System.Runtime.InteropServices;
 using Binarysharp.Assemblers.Fasm;
 
@@ -8,21 +9,21 @@ namespace GuildWarsInterface.Modification.Hooks
         {
                 private static IntPtr _speedModifierLocation;
 
-                internal static float SpeedModifier
+                [HandleProcessCorruptedStateExceptions]
+                internal static float SpeedModifier()
                 {
-                        get
+                        try
                         {
-                                try
-                                {
-                                        var data = Marshal.ReadIntPtr(_speedModifierLocation);
-                                        return BitConverter.ToSingle(BitConverter.GetBytes(Marshal.ReadInt32(data + 0x60)), 0);
-                                }
-                                catch (AccessViolationException)
-                                {
-                                        return 0;
-                                }
+                                var data = Marshal.ReadIntPtr(_speedModifierLocation);
+                                return BitConverter.ToSingle(BitConverter.GetBytes(Marshal.ReadInt32(data + 0x60)), 0);
+                        }
+                        catch (AccessViolationException)
+                        {
+                                return 0;
                         }
                 }
+
+
 
                 internal static void Install()
                 {
