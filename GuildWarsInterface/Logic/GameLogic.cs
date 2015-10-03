@@ -2,6 +2,7 @@
 using System.Linq;
 using GuildWarsInterface.Datastructures;
 using GuildWarsInterface.Datastructures.Agents;
+using GuildWarsInterface.Datastructures.Agents.Components;
 using GuildWarsInterface.Declarations;
 using GuildWarsInterface.Interaction;
 
@@ -25,11 +26,15 @@ namespace GuildWarsInterface.Logic
 
                 public delegate void PartyKickMemberHandler(PlayerCharacter memberToKick);
 
+                public delegate void PlayHandler(Map map);
+
                 public delegate void SkillBarEquipSkillHandler(uint slot, Skill skill);
 
                 public delegate void SkillBarMoveSkillToEmptySlotHandler(uint slotFrom, uint slotTo);
 
                 public delegate void SkillBarSwapSkillsHandler(uint slot1, uint slot2);
+
+                public delegate bool ValidateNewCharacterHandler(string name, PlayerAppearance apperance);
 
                 public static ChatMessageHandler ChatMessage = (message, channel) => Chat.ShowMessage(message, Game.Player.Character, Chat.GetColorForChannel(channel));
 
@@ -74,5 +79,7 @@ namespace GuildWarsInterface.Logic
                                 Game.Player.Character.SkillBar.RechargeStart(slot, 0);
                                 Game.Player.Character.SkillBar.RechargeEnd(slot);
                         };
+
+                public static ValidateNewCharacterHandler ValidateNewCharacter = (name, apperance) => false;
         }
 }

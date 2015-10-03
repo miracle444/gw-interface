@@ -6,6 +6,7 @@ using GuildWarsInterface.Controllers.Base;
 using GuildWarsInterface.Datastructures.Agents;
 using GuildWarsInterface.Datastructures.Agents.Components;
 using GuildWarsInterface.Declarations;
+using GuildWarsInterface.Logic;
 using GuildWarsInterface.Misc;
 using GuildWarsInterface.Networking;
 using GuildWarsInterface.Networking.Protocol;
@@ -48,14 +49,21 @@ namespace GuildWarsInterface.Controllers.GameControllers
 
                 private void ValidateNewCharacterHandler_(List<object> objects)
                 {
-                        var createdCharacter = new PlayerCharacter
-                                {
-                                        Name = (string) objects[1],
-                                        Appearance = new PlayerAppearance(BitConverter.ToUInt32((byte[]) objects[2], 0))
-                                };
+                        var name = (string) objects[1];
+                        var appearance = new PlayerAppearance(BitConverter.ToUInt32((byte[]) objects[2], 0));
 
-                        ValidationFailed();
-                        //ValidationSucceeded(createdCharacter);
+                        if (GameLogic.ValidateNewCharacter(name, appearance))
+                        {
+                                ValidationSucceeded(new PlayerCharacter
+                                        {
+                                                Name = name,
+                                                Appearance = appearance
+                                        });
+                        }
+                        else
+                        {
+                                ValidationFailed();
+                        }
                 }
 
                 private void ValidationSucceeded(PlayerCharacter createdCharacter)
@@ -67,7 +75,7 @@ namespace GuildWarsInterface.Controllers.GameControllers
                         Network.GameServer.Send(GameServerMessage.CharacterCreated,
                                                 new byte[16],
                                                 createdCharacter.Name,
-                                                (ushort) 100, //Map.TeamArenas,
+                                                (ushort) Map.GreatTempleOfBalthazar,
                                                 createdCharacter.GetLoginScreenAppearance());
 
                         Game.Player.Character = createdCharacter;
