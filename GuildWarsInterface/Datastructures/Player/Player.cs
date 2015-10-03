@@ -5,6 +5,7 @@ using GuildWarsInterface.Datastructures.Agents;
 using GuildWarsInterface.Datastructures.Components;
 using GuildWarsInterface.Debugging;
 using GuildWarsInterface.Declarations;
+using GuildWarsInterface.Modification.Hooks;
 
 #endregion
 
@@ -39,6 +40,11 @@ namespace GuildWarsInterface.Datastructures.Player
                                 return _character;
                         }
                         set { _character = value; }
+                }
+
+                public float SpeedModifier
+                {
+                        get { return (float) Math.Round(SpeedModifierHook.SpeedModifier, 2); }
                 }
         }
 }

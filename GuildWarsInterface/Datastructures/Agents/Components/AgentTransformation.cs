@@ -61,45 +61,18 @@ namespace GuildWarsInterface.Datastructures.Agents.Components
                         }
                 }
 
-                public Position Goal
-                {
-                        get { return _goal; }
-                        set
-                        {
-                                if (_goal != value)
-                                {
-                                        _goal = value;
+                public Position Goal { get; set; }
+                public MovementType MovementType { get; set; }
+                public float SpeedModifier { get; set; }
 
-                                        if (GoalChanged != null) GoalChanged();
-                                }
-                        }
-                }
-
-                public MovementType MovementType
-                {
-                        get { return _movementType; }
-                        set
-                        {
-                                if (_movementType != value)
-                                {
-                                        _movementType = value;
-                                        if (MovementTypeChanged != null) MovementTypeChanged();
-                                }
-                        }
-                }
-
-                public event Action GoalChanged;
-                public event Action MovementTypeChanged;
-
-                public void SetGoal(float x, float y, ushort plane)
+                public void SetGoal(float x, float y, short plane)
                 {
                         if (Game.State == GameState.Playing)
                         {
                                 Network.GameServer.Send((GameServerMessage) 32,
                                                         IdManager.GetId(_agent),
-                                                        _cacheVelocity,
-                                                        (byte) _cacheType);
-                                Console.WriteLine("velocity: {0}, type: {1}", _cacheType, _cacheType);
+                                                        SpeedModifier,
+                                                        (byte)MovementType);
 
                                 Network.GameServer.Send((GameServerMessage) 30,
                                                         IdManager.GetId(_agent),
@@ -107,8 +80,6 @@ namespace GuildWarsInterface.Datastructures.Agents.Components
                                                         y,
                                                         plane,
                                                         plane);
-
-                                Console.WriteLine("x: {0}, y: {1}, plane: {2}", x, y, plane);
                         }
                 }
 

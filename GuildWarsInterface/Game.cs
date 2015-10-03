@@ -1,6 +1,7 @@
 ﻿#region
 
 using System;
+using System.Linq;
 using System.Runtime.InteropServices;
 using GuildWarsInterface.Datastructures;
 using GuildWarsInterface.Datastructures.Agents;
@@ -41,15 +42,17 @@ namespace GuildWarsInterface
                                 Map.TeamArenas.Info().Flags &= ~AreaInfo.AreaFlags.HideOnWorldmap;
                                 CancelLoginHook.Install(() => AuthLogic.CancelLogin());
                                 AgentTrackerHook.Install((id, data) =>
+                                {
+                                        Creature creature;
+                                        if (IdManager.TryGet(id, out creature))
                                         {
-                                                Creature creature;
-                                                if (IdManager.TryGet(id, out creature))
-                                                {
-                                                        creature.Transformation.Goal = new Position(BitConverter.ToSingle(BitConverter.GetBytes(Marshal.ReadInt32(data + 8)), 0),
-                                                                                                    BitConverter.ToSingle(BitConverter.GetBytes(Marshal.ReadInt32(data + 12)), 0),
-                                                                                                    (short) Marshal.ReadInt32(data + 16));
-                                                }
-                                        });
+                                                creature.Transformation.Goal = new Position(BitConverter.ToSingle(BitConverter.GetBytes(Marshal.ReadInt32(data + 8)), 0),
+                                                                                            BitConverter.ToSingle(BitConverter.GetBytes(Marshal.ReadInt32(data + 12)), 0),
+                                                                                            (short)Marshal.ReadInt32(data + 16));
+                                        }
+                                });
+
+                                SpeedModifierHook.Install();
 
                                 Network.Initialize();
 

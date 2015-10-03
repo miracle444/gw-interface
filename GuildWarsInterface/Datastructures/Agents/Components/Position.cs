@@ -59,5 +59,10 @@ namespace GuildWarsInterface.Datastructures.Agents.Components
 
                         return dx * dx + dy * dy;
                 }
+
+                public override string ToString()
+                {
+                        return string.Format("[{0}, {1}, {2}]", X, Y, Plane);
+                }
         }
 }

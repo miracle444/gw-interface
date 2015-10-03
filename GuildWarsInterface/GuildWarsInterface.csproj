@@ -118,6 +118,7 @@
     <Compile Include="Modification\Hooks\GameProtocolHook.cs" />
     <Compile Include="Modification\Hooks\GetHostByNameHook.cs" />
     <Compile Include="Modification\Hooks\CancelLoginHook.cs" />
+    <Compile Include="Modification\Hooks\SpeedModifierHook.cs" />
     <Compile Include="Networking\Protocol\Protocol.cs" />
     <Compile Include="Networking\Protocol\AuthServerMessage.cs" />
     <Compile Include="Networking\Servers\FileServer.cs" />
