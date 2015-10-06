@@ -172,7 +172,7 @@ namespace GuildWarsInterface.Datastructures.Agents
                 {
                         UpdateAppearance();
                         Professions = Professions;
-                        //Level = Level;
+                        Level = Level;
                         Status = Status;
                         Health.Maximum = Health.Maximum;
                         Energy.Maximum = Energy.Maximum;
