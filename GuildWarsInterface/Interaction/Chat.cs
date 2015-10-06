@@ -114,13 +114,15 @@ namespace GuildWarsInterface.Interaction
                         if (command != null && InternalCommand != null) InternalCommand(command, arguments);
                 }
 
-                private static string ParseCommand(string commandWithArguments, out List<string> arguments)
+                public static string ParseCommand(string commandWithArguments, out List<string> arguments)
                 {
                         if (commandWithArguments == null)
                         {
                                 arguments = null;
                                 return null;
                         }
+
+                        commandWithArguments = commandWithArguments.ToLower();
 
                         arguments = new List<string>();
 
