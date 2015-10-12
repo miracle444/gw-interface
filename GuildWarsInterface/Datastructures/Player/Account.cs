@@ -52,7 +52,7 @@ namespace GuildWarsInterface.Datastructures.Player
                         if (Game.State != GameState.Handshake && Game.State != GameState.LoginScreen)
                         {
                                 Network.AuthServer.Send(AuthServerMessage.Character,
-                                                        Network.AuthServer.LoginCount,
+                                                        Network.AuthServer.TransactionCounter,
                                                         new byte[16],
                                                         0,
                                                         character.Name,
@@ -75,7 +75,7 @@ namespace GuildWarsInterface.Datastructures.Player
                         foreach (PlayerCharacter character in Characters)
                         {
                                 Network.AuthServer.Send(AuthServerMessage.Character,
-                                                        Network.AuthServer.LoginCount,
+                                                        Network.AuthServer.TransactionCounter,
                                                         new byte[16],
                                                         0,
                                                         character.Name,

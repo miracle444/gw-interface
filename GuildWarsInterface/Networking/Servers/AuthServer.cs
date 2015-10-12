@@ -15,7 +15,7 @@ namespace GuildWarsInterface.Networking.Servers
         {
                 internal const short PORT = 6112;
 
-                public uint LoginCount;
+                public uint TransactionCounter;
 
                 public AuthServer()
                 {
@@ -53,6 +53,11 @@ namespace GuildWarsInterface.Networking.Servers
                 private void RegisterController(IController controller)
                 {
                         controller.Register(this);
+                }
+
+                public void SendTransactionSuccessCode(TransactionSuccessCode code)
+                {
+                        Send(AuthServerMessage.TransactionSuccessCode, TransactionCounter, (uint)code);
                 }
         }
 }

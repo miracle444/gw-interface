@@ -3,7 +3,7 @@
         internal enum AuthServerMessage
         {
                 ComputerInfoReply = 1,
-                StreamTerminator = 3,
+                TransactionSuccessCode = 3,
                 Character = 7,
                 Dispatch = 9,
                 FriendList = 10,

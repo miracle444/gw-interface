@@ -20,7 +20,7 @@ namespace GuildWarsInterface.Controllers.AuthControllers
 
                 private void LoginHandler18(List<object> data)
                 {
-                        Network.AuthServer.LoginCount = (uint) data[1];
+                        Network.AuthServer.TransactionCounter = (uint) data[1];
 
                         if (AuthLogic.Login((string) data[4], (string) data[5], (string) data[7]))
                         {
@@ -28,13 +28,13 @@ namespace GuildWarsInterface.Controllers.AuthControllers
 
                                 Game.Player.Account.SendCharacters();
 
-                                Network.AuthServer.Send(AuthServerMessage.Gui, Network.AuthServer.LoginCount, (ushort) 0);
+                                Network.AuthServer.Send(AuthServerMessage.Gui, Network.AuthServer.TransactionCounter, (ushort) 0);
 
                                 Game.Player.FriendList.Init();
-                                Network.AuthServer.Send(AuthServerMessage.PlayerStatus, Network.AuthServer.LoginCount, (uint) Game.Player.Status);
+                                Network.AuthServer.Send(AuthServerMessage.PlayerStatus, Network.AuthServer.TransactionCounter, (uint) Game.Player.Status);
 
                                 Network.AuthServer.Send(AuthServerMessage.AccountPermissions,
-                                                        Network.AuthServer.LoginCount,
+                                                        Network.AuthServer.TransactionCounter,
                                                         2,
                                                         4,
                                                         new byte[] {0x38, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00},
@@ -46,11 +46,11 @@ namespace GuildWarsInterface.Controllers.AuthControllers
                                                         (byte) 23, // accepted eula
                                                         0); // enable name change (requires name change credits)
 
-                                Network.AuthServer.Send(AuthServerMessage.StreamTerminator, Network.AuthServer.LoginCount, 0);
+                                Network.AuthServer.SendTransactionSuccessCode(TransactionSuccessCode.Success);
                         }
                         else
                         {
-                                Network.AuthServer.Send(AuthServerMessage.StreamTerminator, Network.AuthServer.LoginCount, 227);
+                                Network.AuthServer.SendTransactionSuccessCode(TransactionSuccessCode.LoginFailed);
                         }
                 }
         }

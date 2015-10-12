@@ -98,6 +98,7 @@
     <Compile Include="Declarations\Profession.cs" />
     <Compile Include="Declarations\Skill.cs" />
     <Compile Include="Declarations\StorageType.cs" />
+    <Compile Include="Declarations\TransactionSuccessCode.cs" />
     <Compile Include="Logic\AuthLogic.cs" />
     <Compile Include="Logic\GameLogic.cs" />
     <Compile Include="Misc\IdManager.cs" />

@@ -84,7 +84,7 @@ namespace GuildWarsInterface
                                 State = GameState.LoadingScreen;
 
                                 Network.AuthServer.Send(AuthServerMessage.Dispatch,
-                                                        Network.AuthServer.LoginCount,
+                                                        Network.AuthServer.TransactionCounter,
                                                         0,
                                                         (uint) newZone.Map,
                                                         new byte[]
@@ -128,6 +128,11 @@ namespace GuildWarsInterface
                         }
 
                         Network.GameServer.Send(GameServerMessage.Tick, milliseconds);
+                }
+
+                public static void TemporaryFeatureREMOVE()
+                {
+                        Network.AuthServer.SendTransactionSuccessCode(TransactionSuccessCode.InvalidClientVersion);
                 }
         }
 }

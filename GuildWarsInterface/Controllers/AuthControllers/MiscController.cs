@@ -39,18 +39,18 @@ namespace GuildWarsInterface.Controllers.AuthControllers
 
                 private void MoveFriendListEntryHandler(List<object> objects)
                 {
-                        Game.Player.FriendList.Move((string) objects[3], (FriendList.Type) (uint) objects[2]);
+                        bool success = AuthLogic.MoveFriend((string)objects[3], (FriendList.Type)(uint)objects[2]);
 
-                        Network.AuthServer.LoginCount = (uint) objects[1];
-                        Network.AuthServer.Send(AuthServerMessage.StreamTerminator, Network.AuthServer.LoginCount, 0); //0x24 = you cannot add yourself as friend
+                        Network.AuthServer.TransactionCounter = (uint) objects[1];
+                        Network.AuthServer.SendTransactionSuccessCode(success ? TransactionSuccessCode.Success : TransactionSuccessCode.Aborted);
                 }
 
                 private void AddFriendListEntryHandler(List<object> objects)
                 {
-                        Network.AuthServer.LoginCount = (uint) objects[1];
-                        Network.AuthServer.Send(AuthServerMessage.StreamTerminator, Network.AuthServer.LoginCount, 0); //0x24 = you cannot add yourself as friend
+                        bool success = AuthLogic.AddFriend((FriendList.Type)(uint)objects[2], (string)objects[3], (string)objects[4]);
 
-                        Game.Player.FriendList.Add((FriendList.Type) (uint) objects[2], (string) objects[3], (string) objects[4]);
+                        Network.AuthServer.TransactionCounter = (uint)objects[1];
+                        Network.AuthServer.SendTransactionSuccessCode(success ? TransactionSuccessCode.Success : TransactionSuccessCode.Aborted);
                 }
 
                 private void LogoutHandler(List<object> objects)
@@ -62,14 +62,14 @@ namespace GuildWarsInterface.Controllers.AuthControllers
 
                 private void Packet9Handler(List<object> objects)
                 {
-                        Network.AuthServer.LoginCount = (uint) objects[1];
+                        Network.AuthServer.TransactionCounter = (uint) objects[1];
 
-                        Network.AuthServer.Send(AuthServerMessage.StreamTerminator, Network.AuthServer.LoginCount, 0);
+                        Network.AuthServer.SendTransactionSuccessCode(TransactionSuccessCode.Success);
                 }
 
                 private void SelectCharacterHandler(List<object> objects)
                 {
-                        Network.AuthServer.LoginCount = (uint) objects[1];
+                        Network.AuthServer.TransactionCounter = (uint) objects[1];
 
                         var selectedCharacterName = (string) objects[2];
                         PlayerCharacter selectedCharacter = Game.Player.Account.Characters.FirstOrDefault(chara => chara.Name.Equals(selectedCharacterName));
@@ -81,19 +81,19 @@ namespace GuildWarsInterface.Controllers.AuthControllers
 
                         Game.Player.Character = selectedCharacter;
 
-                        Network.AuthServer.Send(AuthServerMessage.StreamTerminator, Network.AuthServer.LoginCount, 0);
+                        Network.AuthServer.SendTransactionSuccessCode(TransactionSuccessCode.Success);
                 }
 
                 private void Packet32Handler(List<object> objects)
                 {
-                        Network.AuthServer.LoginCount = (uint) objects[1];
+                        Network.AuthServer.TransactionCounter = (uint) objects[1];
 
-                        Network.AuthServer.Send(AuthServerMessage.StreamTerminator, Network.AuthServer.LoginCount, 0);
+                        Network.AuthServer.SendTransactionSuccessCode(TransactionSuccessCode.Success);
                 }
 
                 private void PlayRequest(List<object> objects)
                 {
-                        Network.AuthServer.LoginCount = (uint) objects[1];
+                        Network.AuthServer.TransactionCounter = (uint) objects[1];
                         var mapId = (uint) objects[3];
                         if (mapId != 0)
                         {
@@ -104,7 +104,7 @@ namespace GuildWarsInterface.Controllers.AuthControllers
                                 Game.State = GameState.CharacterCreation;
 
                                 Network.AuthServer.Send(AuthServerMessage.Dispatch,
-                                                        Network.AuthServer.LoginCount,
+                                                        Network.AuthServer.TransactionCounter,
                                                         0,
                                                         mapId,
                                                         new byte[]
@@ -119,15 +119,15 @@ namespace GuildWarsInterface.Controllers.AuthControllers
 
                 private void Packet53Handler(List<object> objects)
                 {
-                        Network.AuthServer.LoginCount = (uint) objects[1];
+                        Network.AuthServer.TransactionCounter = (uint) objects[1];
 
-                        Network.AuthServer.Send(AuthServerMessage.Response53, Network.AuthServer.LoginCount, 0);
-                        Network.AuthServer.Send(AuthServerMessage.StreamTerminator, Network.AuthServer.LoginCount, 0);
+                        Network.AuthServer.Send(AuthServerMessage.Response53, Network.AuthServer.TransactionCounter, 0);
+                        Network.AuthServer.SendTransactionSuccessCode(TransactionSuccessCode.Success);
                 }
 
                 private void DeleteCharacterHandler(List<object> objects)
                 {
-                        Network.AuthServer.LoginCount = (uint) objects[1];
+                        Network.AuthServer.TransactionCounter = (uint) objects[1];
 
                         var nameOfCharacterToDelete = (string) objects[2];
 
@@ -150,7 +150,7 @@ namespace GuildWarsInterface.Controllers.AuthControllers
 
                         Game.Player.Account.RemoveCharacter(characterToDelete);
 
-                        Network.AuthServer.Send(AuthServerMessage.StreamTerminator, Network.AuthServer.LoginCount, 0);
+                        Network.AuthServer.SendTransactionSuccessCode(TransactionSuccessCode.Success);
                 }
         }
 }

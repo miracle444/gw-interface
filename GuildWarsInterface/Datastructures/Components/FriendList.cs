@@ -75,7 +75,7 @@ namespace GuildWarsInterface.Datastructures.Components
 
                 private static void InitEntry(Entry entry)
                 {
-                        Network.AuthServer.Send(AuthServerMessage.FriendList, Network.AuthServer.LoginCount, (uint) entry.Type, entry.BaseCharacterName);
+                        Network.AuthServer.Send(AuthServerMessage.FriendList, Network.AuthServer.TransactionCounter, (uint) entry.Type, entry.BaseCharacterName);
                 }
 
                 private static void UpdateEntry(Entry entry)
@@ -98,6 +98,11 @@ namespace GuildWarsInterface.Datastructures.Components
                 internal void Update()
                 {
                         Entries.ToList().ForEach(UpdateEntry);
+                }
+
+                public void Clear()
+                {
+                        Entries.ToList().ForEach(e => Remove(e.BaseCharacterName));
                 }
 
                 public sealed class Entry
