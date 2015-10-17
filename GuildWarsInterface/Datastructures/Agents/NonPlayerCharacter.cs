@@ -1,5 +1,6 @@
 ﻿#region
 
+using System;
 using GuildWarsInterface.Declarations;
 using GuildWarsInterface.Misc;
 using GuildWarsInterface.Networking;
@@ -11,30 +12,26 @@ namespace GuildWarsInterface.Datastructures.Agents
 {
         public sealed class NonPlayerCharacter : Creature
         {
-                // size:
-                // [6, ... , 250] standard: 100
-
-                // files: 
-                // 9062 xunlai chest ~ /
-                // 16203 olias, whisperer order, palawa joko ~ 245627
-                // 116225 female ghost ~ 130087
-                // 116228 male ghost ~ 130092
-                // 116378 skeletton ~ 353390
-                // 129701 aatxe ~ /
-                // 141714 grasping darkness ~ 142181
-                // 243640 corsars, dervish henchmen ~ 245357
-                // 274514 empty model ~ /
-                // 282999 angry asuras ~ 314390
-                // 283000 asuras ~ 314390
+                public enum Model : ulong
+                {
+                        Empty = 0x43052,
+                        XunlaiChest = 0x2366,
+                        Aatxe = 0x1FAA5,
+                        GhostMale = 0x1FC2C0001C604,
+                        GhostFemale = 0x1FC270001C601,
+                        GraspingDarkness = 0x22B6500022992,
+                        Dhuum = 0x5652600056523
+                }
 
                 private readonly NpcFlags _flags;
-                private readonly uint _model;
+                private readonly Model _model;
                 private readonly uint _size;
 
-                public NonPlayerCharacter(uint model, uint size = 20)
+                public NonPlayerCharacter(Model model, uint size = 100)
                 {
                         _model = model;
-                        _size = size;
+                        _size = Math.Min(Math.Max(size, 6), 250);
+                        _flags = NpcFlags.Unknown3;
                 }
 
                 protected override void OnNameChanged()
@@ -45,7 +42,7 @@ namespace GuildWarsInterface.Datastructures.Agents
                 {
                         Network.GameServer.Send(GameServerMessage.NpcStats,
                                                 IdManager.GetId(this),
-                                                _model,
+                                                (uint)((ulong)_model & 0xFFFFFFFF),
                                                 0,
                                                 _size << 24,
                                                 0,
@@ -53,6 +50,8 @@ namespace GuildWarsInterface.Datastructures.Agents
                                                 (byte) Professions.Primary,
                                                 (byte) 20,
                                                 new[] {(char) 0x8102, (char) 0x58FA});
+
+                        if ((ulong)_model > 0xFFFFFFFF) Network.GameServer.Send(GameServerMessage.NpcModel, IdManager.GetId(this), new[] { (uint)((ulong)_model >> 32) });
 
                         Network.GameServer.Send(GameServerMessage.NpcName, IdManager.GetId(this), new HString(Name).Serialize());
 
