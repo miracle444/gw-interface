@@ -3,6 +3,7 @@ using System.Runtime.InteropServices;
 using Binarysharp.Assemblers.Fasm;
 using System.IO;
 using GuildWarsInterface.Modification.Native;
+using GuildWarsInterface.Debugging;
 
 namespace GuildWarsInterface.Modification.Hooks
 {
@@ -10,11 +11,11 @@ namespace GuildWarsInterface.Modification.Hooks
         {
                 private static HookType _hookDelegate;
                 private static readonly IntPtr _hookAddress = (IntPtr)0x5900CB;
-                private const string filePath = @"E:\Users\Etienne2\Desktop\packetlog.txt";
+                private static string _filePath;
 
-                public static void Install()
+                public static void Install(string filePath)
                 {
-
+                        _filePath = filePath;
                         _hookDelegate = Hook;
 
                         IntPtr codeCave = Marshal.AllocHGlobal(128);
@@ -44,7 +45,7 @@ namespace GuildWarsInterface.Modification.Hooks
                 {
                         byte[] buffer = new byte[len];
                         Marshal.Copy(buf, buffer, 0, len);
-                        File.AppendAllText(filePath, BitConverter.ToString(buffer).Replace("-", " "));
+                        File.AppendAllText(_filePath, BitConverter.ToString(buffer).Replace("-", " ") + " ");
                         return 0;
                 }
 
