@@ -20,7 +20,6 @@ namespace GuildWarsInterface.Networking
                         PortPatch.Apply();
                         DisableEncryptionPatch.Apply();
                         GetHostByNameHook.Install();
-                        //PacketSnifferHook.Install("FILL ME");
                         GameProtocolHook.Install(gameProtocol =>
                                 {
                                         GameServer.Protocol = new Protocol.Protocol(gameProtocol);

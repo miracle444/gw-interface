@@ -10,7 +10,6 @@
                 FriendList = 10,
                 UpdateFriendList = 11,
                 Whisper = 12,
-                //FriendListEnd = 5120,
                 AccountPermissions = 17,
                 PlayerStatus = 20,
                 Gui = 22,
