@@ -8,7 +8,6 @@
                 Dispatch = 9,
                 FriendList = 10,
                 UpdateFriendList = 11,
-                Whisper = 12,
                 AccountPermissions = 17,
                 PlayerStatus = 20,
                 Gui = 22,
