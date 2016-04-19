@@ -2,7 +2,6 @@
 {
         internal enum AuthServerMessage
         {
-             
                 ComputerInfoReply = 1,
                 TransactionSuccessCode = 3,
                 Character = 7,
