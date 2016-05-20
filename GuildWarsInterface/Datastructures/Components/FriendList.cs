@@ -38,7 +38,14 @@ namespace GuildWarsInterface.Datastructures.Components
                         {
                                 var newEntry = new Entry(type, baseCharacterName, currentCharacterName, playerStatus, map);
 
-                                _entries.Add(newEntry.BaseCharacterName, newEntry);
+                                if (!_entries.ContainsKey(newEntry.BaseCharacterName))
+                                {
+                                        _entries.Add(newEntry.BaseCharacterName, newEntry);
+                                }
+                                else
+                                {
+                                        _entries[newEntry.BaseCharacterName] = newEntry;
+                                }
 
                                 if (Game.State == GameState.Playing)
                                 {
@@ -82,6 +89,7 @@ namespace GuildWarsInterface.Datastructures.Components
                 {
                         Network.AuthServer.Send(AuthServerMessage.UpdateFriendList, (uint) entry.PlayerStatus, entry.BaseCharacterName, entry.CurrentCharacterName);
 
+                        //If a map was specified, show it next to name
                         if (entry.Map != 0)
                         {
                                 Network.AuthServer.Send(AuthServerMessage.FriendListLocationInfo, (uint) entry.Map,
